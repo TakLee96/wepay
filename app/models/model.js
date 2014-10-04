@@ -27,7 +27,7 @@ var connectToMongoDB = function() {
         mongoose.connect((process.env.DATABASE_URL || process.env.MONGOHQ_URL) + "/wepay");
         mongoose.connection.on("error", console.error.bind("[Model] Connection Failed: "));
         mongoose.connection.once("open", function() {
-            console.log("[Model] Connection Success");
+            console.log("[Model] Connection Success!!!");
             connected = true;
         });
     }

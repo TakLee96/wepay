@@ -79,15 +79,26 @@ exports.addUser = function(user, callback) {
         copayer_posts: []
     };
 
-    userModel.create(_user, function(err, new_user) {
-        if (err) {
-            console.error.bind("[Model] Creating New User Failed: ")
-        }
-        console.log("[Model] User Created: %s", new_user);
-        if (callback) {
-            callback(new_user);
+    userModel.find({userid: _user.userid}, function(err, user) {
+        if (user) {
+            console.log("[Model] User already exists");
+            if (callback) {
+                callback(user)
+            }
+        } else {
+            userModel.create(_user, function(err, new_user) {
+                if (err) {
+                    console.error.bind("[Model] Creating New User Failed: ")
+                }
+                console.log("[Model] User Created: %s", new_user);
+                if (callback) {
+                    callback(new_user);
+                }
+            });
         }
     });
+
+
 };
 
 exports.getUser = function(userid, callback) {

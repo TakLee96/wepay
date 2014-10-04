@@ -9,16 +9,25 @@
     <script src="js/vendor/modernizr.js"></script>
 </head>
 <body>
+    <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/facebook.js"></script>
 
-    <div class="login" ng-app="facebookApp">
+    <div class="login" ng-app="wepayApp">
       <div class="login-panel">
         <h1 class="splash-text slide-in">WePay</h1>
-        <div ng-controller="LogCtrl">
+        <div ng-controller="wepayCtrl">
+            <div ng-bind="friends"></div>
+        </div>
+        <div ng-controller="FBCtrl">
+            <div ng-bind="friends"></div>
             <button class="login-button slide-in" ng-click="logIn();">Login with Facebook</button>
         </div>
       </div>
     </div>
+
+
+
 
 
 
@@ -27,7 +36,5 @@
     <script>
         $(document).foundation();
     </script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
-var facebookApp = angular.module('facebookApp', []);
+wepayApp.controller('FBCtrl', ['$scope', 'fbData', function($scope, fbData) {
+    $scope.friends = [];
 
-facebookApp.controller('LogCtrl', ['$scope', function($scope) {
     // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
         console.log('statusChangeCallback');
@@ -78,12 +78,17 @@ facebookApp.controller('LogCtrl', ['$scope', function($scope) {
         });
         FB.api('/me/friends', function(response) {
             // TODO: the user has successfully logged into FB and wepay
-            response.data;
+            console.log(response.data);
+            $scope.friends = JSON.stringify(response.data);
+            fbData.setData('friends', $scope.friends);
         });
     }
 
     $scope.logIn = function() {
-
+        FB.login(function(response) {
+            console.log("Log in success %s", JSON.stringify(response));
+            afterLogIn();
+        }, {scope: 'public_profile, email, user_friends'});
     };
 
     $scope.logOut = function() {
@@ -93,4 +98,3 @@ facebookApp.controller('LogCtrl', ['$scope', function($scope) {
         });
     }
 }]);
-

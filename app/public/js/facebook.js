@@ -8,16 +8,15 @@ function statusChangeCallback(response) {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        console.log("FB and wepay log in success");
-        afterLogIn(response);
+        console.log("FB and wepay log in success!");
+        afterLogIn(response.authResponse.accessToken);
     } else if (response.status === 'not_authorized') {
         // The person is logged into Facebook, but not your app.
-        console.log("FB log in success");
-        firstLogIn();
+        console.log("Please log in to Facebook! We need you!");
     } else {
         // The person is not logged into Facebook, so we're not sure if
         // they are logged into this app or not.
-        console.log("FB log in fails");
+        console.log("Please log in to Facebook.");
     }
 }
 
@@ -68,7 +67,7 @@ window.fbAsyncInit = function() {
 
 // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
-function afterLogIn() {
+function afterLogIn(accessToken) {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
         // TODO: the user has successfully logged into FB and wepay
@@ -78,6 +77,9 @@ function afterLogIn() {
     });
 }
 
-function firstLogIn() {
-    // TODO: the user has successfully logged into FB but not wepay
+function logOut() {
+    FB.logout(function(response) {
+        // Person is now logged out
+        console.log("FB logged out: %s", response);
+    });
 }

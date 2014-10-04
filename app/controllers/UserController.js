@@ -13,10 +13,11 @@ var model = require('../models/model');
 // }
 var addUser = function(req, res) {
   var user = req.body;
-  console.log("[Controller] Try to create User: %s", JSON.stringify(user));
+  console.log("[UserController] Try to create User: %s", JSON.stringify(user));
   model.addUser(user, function(new_user) {
-    if (new_user !== null && new_user.length != 0) {
-        res.json(new_user[0]);
+    if (new_user) {
+      console.log('[UserController] Added new_user: %s', JSON.stringify(new_user));
+      res.json(new_user[0]);
     } else {
      // TODO: Add error handling
     }
@@ -29,7 +30,7 @@ var addUser = function(req, res) {
 var getUser = function(req, res) {
   var userid = req.params.userid;
   model.getUser(userid, function(user) {
-    if (user !== null && user.length != 0) {
+    if (user) {
       res.json(user[0]);
     } else {
      // TODO: Add error handling
@@ -44,7 +45,14 @@ var getUser = function(req, res) {
 // }
 // return : new user object
 var updateUser = function(req, res) {
-  // TODO: Implement updateUser function
+  var update = req.body;
+  model.updateUser(update, function(user) {
+    if (user) {
+      res.json(user[0]);
+    } else {
+      // TODO: Add error handling
+    }
+  });
 };
 
 module.exports = {

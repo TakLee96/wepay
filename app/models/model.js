@@ -37,10 +37,10 @@ var connectToMongoDB = function() {
 // Helper Functions
 var mergeUser = function(user, update) {
     // assume no duplicate
-    if (update.user_posts != undefined || update.user_posts != null) {
+    if (update.user_posts !== undefined || update.user_posts !== null) {
         user.user_posts = user.user_posts.concat(update.user_posts);
     }
-    if (update.copayer_posts != undefined || update.copayer_posts != null) {
+    if (update.copayer_posts !== undefined || update.copayer_posts !== null) {
         user.copayer_posts = user.copayer_posts.concat(update.copayer_posts);
     }
     return user;
@@ -162,9 +162,9 @@ exports.getPostsUserID = function(userid, callBack) {
     });
 };
 
-exports.updateUser = function(userid, update, callBack) {
+exports.updateUser = function(update, callBack) {
     // only update user_posts & copayer_posts
-    exports.getUser(userid, function(user) {
+    exports.getUser(update.userid, function(user) {
         if (user) {
             user = user[0];
             console.log("[Model] Applying update: %s", JSON.stringify(update));
@@ -174,7 +174,7 @@ exports.updateUser = function(userid, update, callBack) {
                 user_posts: user.user_posts,
                 copayer_posts: user.copayer_posts
             };
-            userModel.findOneAndUpdate({userid: userid}, newUpdate, function(err, numberAffected, raw) {
+            userModel.findOneAndUpdate({userid: update.userid}, newUpdate, function(err, numberAffected, raw) {
                 if (err) {
                     console.error.bind("[Model] Error occurs while updating: ");
                 } else {
@@ -192,9 +192,9 @@ exports.updateUser = function(userid, update, callBack) {
     })
 };
 
-exports.updatePost = function(postid, update, callBack) {
+exports.updatePost = function(update, callBack) {
     // only update title & money_requested & copayers
-    exports.getPost(postid, function(post) {
+    exports.getPost(update.postid, function(post) {
         if (post) {
             post = post[0];
             post = mergePost(post, update);
@@ -204,7 +204,7 @@ exports.updatePost = function(postid, update, callBack) {
                 money_requested: post.money_requested,
                 copayers: post.copayers
             };
-            postModel.findOneAndUpdate({postid: postid}, newUpdate, function(err, numberAffected, raw) {
+            postModel.findOneAndUpdate({postid: update.postid}, newUpdate, function(err, numberAffected, raw) {
                 if (err) {
                     console.error.bind("[Model] Error occurs while updating: ");
                 } else {
@@ -285,7 +285,7 @@ var unit_testing = function() {
                             errors++;
                         }
 
-                        exports.updatePost(first_post.postid, {title: "hey! post updated!", money_requested: 1500, copayers: [{userid: "facebook123456", amount_paid: 300}]}, function(post) {
+                        exports.updatePost({postid: first_post.postid, title: "hey! post updated!", money_requested: 1500, copayers: [{userid: "facebook123456", amount_paid: 300}]}, function(post) {
                             console.log("[Model] This is post: %s", post);
                             if (post.title == "hey! post updated!" && post.money_requested == 1500 && post.copayers[0].userid == "facebook123456" && post.copayers[0].amount_paid == 300) {
                                 console.log("[Test] 6 updatePost is working");

@@ -143,16 +143,16 @@ exports.getPost = function(postid, callBack) {
 exports.getPostsUserID = function(userid, callBack) {
     connectToMongoDB();
 
-    postModel.find({userid: userid}, function(err, post) {
-        if (err) {console.error.bind("[Model] Getting Post by userid Failed: ")}
-        if (post) {
-            console.log("[Model] Posts by ID %s Found: %s", userid, post);
+    postModel.find({userid: userid}, function(err, posts) {
+        if (err) {console.error.bind("[Model] Getting Posts by userid Failed: ")}
+        if (posts) {
+            console.log("[Model] Posts by ID %s Found: %s", userid, posts);
         } else {
-            console.log("[Model] Post Not Found!");
+            console.log("[Model] Posts Not Found!");
         }
         if (callBack) {
             // null Case handled in controller
-            callBack(post);
+            callBack(posts);
         }
     });
 };

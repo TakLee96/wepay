@@ -1,4 +1,4 @@
-var model = require('./app/models/model');
+var model = require('../models/model');
 
 // Adds a user to the database
 // req.body : {

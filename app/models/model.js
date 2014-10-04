@@ -24,7 +24,7 @@ var postModel = mongoose.model("posts", postSchema);
 var connected = false;
 var connectToMongoDB = function() {
     if (!connected) {
-        mongoose.connect("mongodb://localhost/wepay");
+        mongoose.connect(process.env.DATABASE_URL + "/wepay");
         mongoose.connection.on("error", console.error.bind("[Model] Connection Failed: "));
         mongoose.connection.once("open", function() {
             console.log("[Model] Connection Success");

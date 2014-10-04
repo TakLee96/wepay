@@ -15,8 +15,6 @@ var addUser = function(req, res) {
   var user = req.body;
   model.addUser(user, function(new_user) {
     if (new_user !== null && new_user.length != 0) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
         res.json(new_user[0]);
     } else {
      // TODO: Add error handling

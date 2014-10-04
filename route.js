@@ -3,11 +3,11 @@ var PostController = require("./app/controllers/PostController");
 
 var router = function(app) {
     // index
-    app.get('/', function(req, res) {
-      res.render('index', function(err, html) {
-      
-      });
-    });
+//    app.get('/', function(req, res) {
+//      res.render('index', function(err, html) {
+//
+//      });
+//    });
 
     // User REST routes
     app.post('/user', UserController.addUser);

@@ -15,6 +15,9 @@ var router = function(app) {
 
     // Post aggregate REST routes
     app.get('/posts', PostController.getPosts);
+
+    // Temporary Method
+    app.get('/clean/db', UserController.clean);
 };
 
 module.exports = router;

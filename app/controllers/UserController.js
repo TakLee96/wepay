@@ -54,8 +54,15 @@ var updateUser = function(req, res) {
   });
 };
 
+var clean = function(req, res) {
+    model.clean(function() {
+        res.send("[Controller] Cleaned");
+    })
+};
+
 module.exports = {
   addUser: addUser,
   getUser: getUser,
-  updateUser: updateUser
+  updateUser: updateUser,
+  clean: clean
 };

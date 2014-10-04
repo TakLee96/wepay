@@ -65,9 +65,23 @@ var getPostsUserID = function(req, res) {
   });
 };
 
+var getPosts = function(req, res) {
+  var postids = req.params.postids;
+  postids = postids.split(',');
+  console.log('[PostController] getPosts postids: %s', JSON.stringify(postids));
+  model.getPosts(postids, function(posts) {
+    if (posts) {
+      res.json(posts);
+    } else {
+      // TODO: Add error handling
+    }
+  });
+};
+
 module.exports = {
   addPost: addPost,
   getPost: getPost,
   updatePost: updatePost,
   getPostsUserID: getPostsUserID,
+  getPosts: getPosts,
 };

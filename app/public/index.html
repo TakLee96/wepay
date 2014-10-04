@@ -3,18 +3,21 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/foundation.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css' />
     <script src="js/vendor/modernizr.js"></script>
 </head>
 <body>
     <script src="js/facebook.js"></script>
 
-    <div ng-app="facebookApp">
+    <div class="login" ng-app="facebookApp">
+      <div class="login-panel">
+        <h1 class="splash-text slide-in">WePay</h1>
         <div ng-controller="LogCtrl">
-            <button ng-click="logIn();">Log In</button>
-            <button ng-click="logOut();">Log Out</button>
+            <button class="login-button slide-in" ng-click="logIn();">Login with Facebook</button>
         </div>
+      </div>
     </div>
 
 

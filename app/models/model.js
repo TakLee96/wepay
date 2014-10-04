@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var apn = require('apn');
+var uuid = require('node-uuid');
 
 // Specify Schema
 var userSchema = mongoose.Schema({
@@ -109,13 +110,20 @@ exports.getUser = function(userid, callBack) {
 exports.addPost = function(post, callBack) {
     connectToMongoDB();
 
-    // Just to be safe
+    copayers = [];
+    for (userid in post.copayers) {
+      copayers.push({
+        userid: userid,
+        amount_paid: 0
+      });
+    }
+
     var _post = {
-        postid: post.postid,
+        postid: uuid.v4(),
         userid: post.userid,
         title: post.title,
         money_requested: post.money_requested,
-        copayers: []
+        copayers: copayers
     };
 
     postModel.create(_post, function(err, new_post) {

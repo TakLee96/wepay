@@ -4,7 +4,10 @@ var model = require('../models/model');
 // req.body : {
 //   title: the post's title,
 //   money_requested: how much money the user needs to buy the thing,
-//   creator_id: the userid of the creator
+//   userid: the userid of the creator,
+//   copayers: [ people helping to pay for thing (array of userids)
+//     userid: ...,
+//   ]
 // }
 // return : post object as json
 var addPost = function(req, res) {

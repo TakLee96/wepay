@@ -13,9 +13,10 @@ var model = require('../models/model');
 // }
 var addUser = function(req, res) {
   var user = req.body;
+  console.log("[Controller] req:%s; user: %s", req, user);
   model.addUser(user, function(new_user) {
     if (new_user !== null && new_user.length != 0) {
-      res.json(new_user[0]);
+        res.json(new_user[0]);
     } else {
      // TODO: Add error handling
     }

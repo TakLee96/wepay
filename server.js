@@ -4,17 +4,13 @@ var setupRoutes = require('./route');
 var cors = require('cors');
 
 var app = express();
-
-app.set('views', __dirname + '/app/views')
+app.use(cors());
 
 setupRoutes(app);
 app.use(function(req, res, next){console.log("%s %s", req.method, req.url); next();});
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'PUT', 'POST']
-}));
+
 app.use(express.static(__dirname + '/app/public'));
 
 //Server Listening to Port

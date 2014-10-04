@@ -6,10 +6,9 @@ var model = require('../models/model');
 //   name: the user's full name
 // }
 // return : {
-//   userid: _,
-//   name: _,
-//   user_posts: [],
-//   associated_posts: []
+//   userid: Strin,
+//   name: String,
+//   venmo_username: String
 // }
 var addUser = function(req, res) {
   var user = req.body;

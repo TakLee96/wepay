@@ -6,6 +6,7 @@ var uuid = require('node-uuid');
 var userSchema = mongoose.Schema({
     userid: String,
     name: String,
+    venmo_username: String,
     user_posts: [String],
     copayer_posts: [String]
 });
@@ -73,6 +74,7 @@ exports.addUser = function(user, callback) {
     var _user = {
         userid: user.userid,
         name: user.name,
+        venmo_username: user.venmo_username,
         user_posts: [],
         copayer_posts: []
     };

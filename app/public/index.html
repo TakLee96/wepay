@@ -8,27 +8,29 @@
 </head>
 <body>
     <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/facebook.js"></script>
 
-    <div ng-app="facebookApp">
-        <div ng-controller="LogCtrl">
-            <div ng-bind="data"></div>
+    <div ng-app="wepayApp">
+        <div ng-controller="wepayCtrl">
+            <div ng-bind="friends"></div>
+        </div>
+        <div ng-controller="FBCtrl">
+            <div ng-bind="friends"></div>
             <button ng-click="logIn();">Log In</button>
             <button ng-click="logOut();">Log Out</button>
         </div>
     </div>
 
-    <div ng-app="wepayApp">
-        <div ng-controller="wepayCtrl">
 
-        </div>
-    </div>
+
+
+
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
         $(document).foundation();
     </script>
-    <script src="js/app.js"></script>
 </body>
 </html>

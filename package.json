@@ -5,7 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.9.0",
-    "express": "^4.9.5"
+    "express": "^4.9.5",
+    "mongooese": "^3.8.17"
   },
   "devDependencies": {},
   "scripts": {

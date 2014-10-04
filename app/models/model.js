@@ -66,7 +66,7 @@ var mergePost = function(post, update) {
 };
 
 // Methods to Export
-exports.addUser = function(user, callBack) {
+exports.addUser = function(user, callback) {
     connectToMongoDB();
 
     // Just to be safe
@@ -82,13 +82,13 @@ exports.addUser = function(user, callBack) {
             console.error.bind("[Model] Creating New User Failed: ")
         }
         console.log("[Model] User Created: %s", new_user);
-        if (callBack) {
-            callBack(new_user);
+        if (callback) {
+            callback(new_user);
         }
     });
 };
 
-exports.getUser = function(userid, callBack) {
+exports.getUser = function(userid, callback) {
     connectToMongoDB();
 
     userModel.find({userid: userid}, function(err, user) {
@@ -100,14 +100,14 @@ exports.getUser = function(userid, callBack) {
         } else {
             console.log("[Model] User Not Found!");
         }
-        if (callBack) {
+        if (callback) {
             // null Case handled in controller
-            callBack(user);
+            callback(user);
         }
     });
 };
 
-exports.addPost = function(post, callBack) {
+exports.addPost = function(post, callback) {
     connectToMongoDB();
 
     copayers = [];
@@ -134,14 +134,14 @@ exports.addPost = function(post, callBack) {
 
         exports.updateUser({userid: _post.userid, user_posts: [_post.postid]}, function(user) {
             console.log("[Model] User Updated for New Post");
-            if (callBack) {
-                callBack(new_post);
+            if (callback) {
+                callback(new_post);
             }
         });
     });
 };
 
-exports.getPost = function(postid, callBack) {
+exports.getPost = function(postid, callback) {
     connectToMongoDB();
 
     postModel.find({postid: postid}, function(err, post) {
@@ -151,14 +151,14 @@ exports.getPost = function(postid, callBack) {
         } else {
             console.log("[Model] Post Not Found!");
         }
-        if (callBack) {
+        if (callback) {
             // null Case handled in controller
-            callBack(post);
+            callback(post);
         }
     });
 };
 
-exports.getPostsUserID = function(userid, callBack) {
+exports.getPostsUserID = function(userid, callback) {
     connectToMongoDB();
 
     postModel.find({userid: userid}, function(err, posts) {
@@ -168,14 +168,29 @@ exports.getPostsUserID = function(userid, callBack) {
         } else {
             console.log("[Model] Posts Not Found!");
         }
-        if (callBack) {
+        if (callback) {
             // null Case handled in controller
-            callBack(posts);
+            callback(posts);
         }
     });
 };
 
-exports.updateUser = function(update, callBack) {
+exports.getPosts = function(postids, callback) {
+    connectToMongoDB();
+
+    postModel.find({postid: { $in: postids }}, function(err, posts) {
+      if (err) {
+        console.error('[Model] Error occured while fetching posts; postids: %s', JSON.stringify(postids));
+      } else {
+        console.log('[Model] Successfully fetched posts; posts: %s', JSON.stringify(posts));
+        if (callback) {
+          callback(posts);
+        }
+      }
+    });
+};
+
+exports.updateUser = function(update, callback) {
     // only update user_posts & copayer_posts
     exports.getUser(update.userid, function(user) {
         if (user) {
@@ -193,9 +208,9 @@ exports.updateUser = function(update, callBack) {
                 } else {
                     console.log("[Model] %s data has been updated", numberAffected);
                     console.log("[Model] mongoDB response: %s", raw);
-                    if (callBack) {
+                    if (callback) {
                         console.log("[Model] Try to call Callback in findOneAndUpdate");
-                        callBack(user);
+                        callback(user);
                     }
                 }
             });
@@ -209,7 +224,7 @@ var pushNotification = function(post) {
   // TODO: Implement push notifications
 };
 
-exports.updatePost = function(update, callBack) {
+exports.updatePost = function(update, callback) {
     // only update title & money_requested & copayers
     exports.getPost(update.postid, function(post) {
         if (post) {
@@ -230,8 +245,8 @@ exports.updatePost = function(update, callBack) {
 
                     pushNotification(post)
 
-                    if (callBack) {
-                        callBack(post);
+                    if (callback) {
+                        callback(post);
                     }
                 }
             });

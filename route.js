@@ -14,7 +14,7 @@ var router = function(app) {
     app.post('/post/:postid', PostController.updatePost);
 
     // Post aggregate REST routes
-    app.get('/posts/:userid', PostController.getPostsUserID);
+    app.get('/posts', PostController.getPosts);
 };
 
 module.exports = router;

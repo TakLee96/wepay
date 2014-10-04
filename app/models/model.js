@@ -267,6 +267,15 @@ exports.updatePost = function(update, callback) {
     });
 };
 
+exports.clean = function(callBack) {
+    userModel.remove({}, function() {
+        postModel.remove({}, function() {
+            console.log("[Model] All data deleted");
+            if (callBack) callBack();
+        })
+    });
+};
+
 // Testing
 /*var unit_testing = function() {
     var steve = {

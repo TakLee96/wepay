@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var apn = require('apn');
 
 // Specify Schema
 var userSchema = mongoose.Schema({
@@ -33,6 +34,10 @@ var connectToMongoDB = function() {
         });
     }
 };
+
+var apnConnection = new apn.Connection({
+    pfx: __dirname + '/private'
+});
 
 // Helper Functions
 var mergeUser = function(user, update) {
@@ -119,7 +124,7 @@ exports.addPost = function(post, callBack) {
         }
         console.log("[Model] Post Created: %s", new_post);
 
-        exports.updateUser(_post.userid, {user_posts: [_post.postid]}, function() {
+        exports.updateUser({userid: _post.userid, user_posts: [_post.postid]}, function(user) {
             console.log("[Model] User Updated for New Post");
             if (callBack) {
                 callBack(new_post);
@@ -192,6 +197,10 @@ exports.updateUser = function(update, callBack) {
     })
 };
 
+var pushNotification = function(post) {
+  // TODO: Implement push notifications
+};
+
 exports.updatePost = function(update, callBack) {
     // only update title & money_requested & copayers
     exports.getPost(update.postid, function(post) {
@@ -210,6 +219,9 @@ exports.updatePost = function(update, callBack) {
                 } else {
                     console.log("[Model] %s data has been updated", numberAffected);
                     console.log("[Model] mongoDB response: %s", raw);
+
+                    pushNotification(post)
+
                     if (callBack) {
                         callBack(post);
                     }

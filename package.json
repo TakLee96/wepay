@@ -4,6 +4,7 @@
   "description": "an iPhone app back end",
   "main": "server.js",
   "dependencies": {
+    "apn": "^1.6.2",
     "body-parser": "^1.9.0",
     "cors": "^2.4.2",
     "express": "^4.9.5",

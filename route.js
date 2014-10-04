@@ -1,13 +1,13 @@
 var UserController = require("./app/controllers/UserController");
 var PostController = require("./app/controllers/PostController");
+var fs = require('fs');
 
 var router = function(app) {
     // index
-//    app.get('/', function(req, res) {
-//      res.render('index', function(err, html) {
-//
-//      });
-//    });
+    app.get('/', function(req, res) {
+        res.setHeader('Content-Type', 'text/html');
+        res.send(fs.readFileSync(__dirname + '/app/views/index.html'));
+    });
 
     // User REST routes
     app.post('/user', UserController.addUser);

@@ -4,11 +4,8 @@ var setupRoutes = require('./route');
 var cors = require('cors');
 
 var app = express();
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'PUT', 'POST']
-}));
-app.set('views', __dirname + '/app/views')
+app.use(cors());
+app.set('views', __dirname + '/app/views');
 
 setupRoutes(app);
 app.use(function(req, res, next){console.log("%s %s", req.method, req.url); next();});

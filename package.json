@@ -1,0 +1,28 @@
+{
+  "name": "wepay",
+  "version": "0.0.1",
+  "description": "an iPhone app back end",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "express": "^4.9.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phlip9/wepay"
+  },
+  "keywords": [
+    "wepay"
+  ],
+  "author": "Philip Hayes, Tak Li, YiHe Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phlip9/wepay/issues"
+  },
+  "homepage": "https://github.com/phlip9/wepay"
+}

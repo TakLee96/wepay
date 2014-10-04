@@ -5,7 +5,7 @@ var userSchema = mongoose.Schema({
     userid: String,
     name: String,
     user_posts: [String],
-    copayer_posts: [String],
+    copayer_posts: [String]
 });
 
 var postSchema = mongoose.Schema({
@@ -22,7 +22,6 @@ var postModel = mongoose.model("posts", postSchema);
 
 // Connect mongoDB
 var connected = false;
-
 var connectToMongoDB = function() {
     if (!connected) {
         mongoose.connect("mongodb://localhost/wepay");
@@ -34,8 +33,32 @@ var connectToMongoDB = function() {
     }
 };
 
-// Methods to Export
+// Helper Functions
+var mergeUser = function(user, update) {
+    // assume no duplicate
+    if (update.user_posts) {
+        user.user_posts.concat(update.user_posts);
+    }
+    if (update.copayer_posts) {
+        user.copayer_posts.concat(update.copayer_posts);
+    }
+    return user;
+};
+var mergePost = function(post, update) {
+    // assume no duplicate
+    if (update.title) {
+        post.title = update.title;
+    }
+    if (update.money_requested) {
+        post.money_requested = update.money_requested;
+    }
+    if (update.copayers) {
+        post.copayers.concat(update.copayers);
+    }
+    return user;
+};
 
+// Methods to Export
 exports.addUser = function(user, callBack) {
     connectToMongoDB();
 
@@ -89,7 +112,7 @@ exports.addPost = function(post, callBack) {
         copayers: []
     };
 
-    postModel.create(_postObj, function(err, new_post) {
+    postModel.create(_post, function(err, new_post) {
         if (err) {
             console.error.bind("[Model] Creating Post Failed: ")
         }
@@ -132,4 +155,52 @@ exports.getPostsUserID = function(userid, callBack) {
             callBack(post);
         }
     });
+};
+
+exports.updateUser = function(userid, update, callBack) {
+    // only update user_posts & copayer_posts
+    exports.getUser(userid, function(user) {
+        if (user) {
+            user = user[0];
+            user = mergeUser(user, update);
+            console.log("[Model] User merged as %s", user);
+            userModel.update({userid: userid}, user, function(err, numberAffected, raw) {
+                if (err) {
+                    console.error.bind("[Model] Error occurs while updating: ");
+                } else {
+                    console.log("[Model] %s data has been updated", numberAffected);
+                    console.log("[Model] mongoDB response: %s", raw);
+                    if (callBack) {
+                        callBack(user);
+                    }
+                }
+            });
+        } else {
+            console.error("[Model] User does not exist");
+        }
+    })
+};
+
+exports.updatePost = function(postid, update, callBack) {
+    // only update title & money_requested & copayers
+    exports.getPost(postid, function(post) {
+        if (post) {
+            post = post[0];
+            post = mergePost(post, update);
+            console.log("[Model] Post merged as %s", post);
+            postModel.update({postid: postid}, post, function(err, numberAffected, raw) {
+                if (err) {
+                    console.error.bind("[Model] Error occurs while updating: ");
+                } else {
+                    console.log("[Model] %s data has been updated", numberAffected);
+                    console.log("[Model] mongoDB response: %s", raw);
+                    if (callBack) {
+                        callBack(post);
+                    }
+                }
+            });
+        } else {
+            console.error("[Model] Post does not exist");
+        }
+    })
 };

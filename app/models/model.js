@@ -238,11 +238,11 @@ exports.updatePost = function(update, callBack) {
         } else {
             console.error("[Model] Post does not exist");
         }
-    })
+    });
 };
 
 // Testing
-var unit_testing = function() {
+/*var unit_testing = function() {
     var steve = {
         userid: "facebook123456",
         name: "Steve Jobs",
@@ -337,4 +337,4 @@ var unit_testing = function() {
             })
         });
     })
-};
+};*/

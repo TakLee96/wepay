@@ -13,7 +13,7 @@ var model = require('../models/model');
 // }
 var addUser = function(req, res) {
   var user = req.body;
-  console.log("[Controller] req:%s; user: %s", JSON.stringify(req.body), user);
+  console.log("[Controller] %s %s %s", JSON.stringify(req.body), JSON.stringify(req.params), JSON.stringify(req.query));
   model.addUser(user, function(new_user) {
     if (new_user !== null && new_user.length != 0) {
         res.json(new_user[0]);

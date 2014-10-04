@@ -2,17 +2,18 @@ var mongoose = require("mongoose");
 
 // Specify Schema
 var userSchema = mongoose.Schema({
-    ID: String,
+    userid: String,
     name: String,
-    posts: [String]
+    user_posts: [String],
+    copayer_posts: [String],
 });
 
 var postSchema = mongoose.Schema({
-    postID: String,
-    ID: String,
+    postid: String,
+    userid: String,
     title: String,
-    money: Number,
-    copayers: [{ID: String, paid: Number}]
+    money_requested: Number,
+    copayers: [{userid: String, amount_paid: Number}]
 });
 
 // Create Model
@@ -35,36 +36,37 @@ var connectToMongoDB = function() {
 
 // Methods to Export
 
-exports.addUser = function(userObj, callBack) {
+exports.addUser = function(user, callBack) {
     connectToMongoDB();
 
     // Just to be safe
-    var _userObj = {
-        ID: userObj.ID,
-        name: userObj.name,
-        posts: userObj.posts
+    var _user = {
+        userid: user.userid,
+        name: user.name,
+        user_posts: [],
+        copayer_posts: []
     };
 
-    userModel.create(_userObj, function(err, user) {
+    userModel.create(_user, function(err, new_user) {
         if (err) {
-            console.error.bind("[Model] Creating User Failed: ")
+            console.error.bind("[Model] Creating New User Failed: ")
         }
-        console.log("[Model] User Created: %s", user);
+        console.log("[Model] User Created: %s", new_user);
         if (callBack) {
-            callBack(user);
+            callBack(new_user);
         }
     });
 };
 
-exports.getUserWithID = function(ID, callBack) {
+exports.getUser = function(userid, callBack) {
     connectToMongoDB();
 
-    userModel.find({ID: ID}, function(err, user) {
+    userModel.find({userid: userid}, function(err, user) {
         if (err) {
             console.error.bind("[Model] Getting User Failed: ")
         }
         if (user) {
-            console.log("[Model] User by ID %s Found: %s", ID, user);
+            console.log("[Model] User by ID %s Found: %s", userid, user);
         } else {
             console.log("[Model] User Not Found!");
         }
@@ -75,36 +77,36 @@ exports.getUserWithID = function(ID, callBack) {
     });
 };
 
-exports.addPost = function(postObj, callBack) {
+exports.addPost = function(post, callBack) {
     connectToMongoDB();
 
     // Just to be safe
-    var _postObj = {
-        postID: postObj.postID,
-        ID: postObj.ID,
-        title: postObj.title,
-        money: postObj.money,
-        copayers: postObj.copayers
+    var _post = {
+        postid: post.postid,
+        userid: post.userid,
+        title: post.title,
+        money_requested: post.money_requested,
+        copayers: []
     };
 
-    postModel.create(_postObj, function(err, post) {
+    postModel.create(_postObj, function(err, new_post) {
         if (err) {
             console.error.bind("[Model] Creating Post Failed: ")
         }
-        console.log("[Model] Post Created: %s", post);
+        console.log("[Model] Post Created: %s", new_post);
         if (callBack) {
-            callBack(post);
+            callBack(new_post);
         }
     });
 };
 
-exports.getPostWithPostID = function(postID, callBack) {
+exports.getPost = function(postid, callBack) {
     connectToMongoDB();
 
-    postModel.find({postID: postID}, function(err, post) {
-        if (err) {console.error.bind("[Model] Getting Post by PostID Failed: ")}
+    postModel.find({postid: postid}, function(err, post) {
+        if (err) {console.error.bind("[Model] Getting Post by postid Failed: ")}
         if (post) {
-            console.log("[Model] Post by PostID %s Found: %s", postID, post);
+            console.log("[Model] Post by PostID %s Found: %s", postid, post);
         } else {
             console.log("[Model] Post Not Found!");
         }
@@ -115,13 +117,13 @@ exports.getPostWithPostID = function(postID, callBack) {
     });
 };
 
-exports.getPostsWithID = function(ID, callBack) {
+exports.getPostsUserID = function(userid, callBack) {
     connectToMongoDB();
 
-    postModel.find({ID: ID}, function(err, post) {
-        if (err) {console.error.bind("[Model] Getting Post by ID Failed: ")}
+    postModel.find({userid: userid}, function(err, post) {
+        if (err) {console.error.bind("[Model] Getting Post by userid Failed: ")}
         if (post) {
-            console.log("[Model] Posts by ID %s Found: %s", ID, post);
+            console.log("[Model] Posts by ID %s Found: %s", userid, post);
         } else {
             console.log("[Model] Post Not Found!");
         }

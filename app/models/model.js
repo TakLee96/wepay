@@ -24,10 +24,11 @@ var postModel = mongoose.model("posts", postSchema);
 var connected = false;
 var connectToMongoDB = function() {
     if (!connected) {
-        mongoose.connect((process.env.DATABASE_URL || process.env.MONGOHQ_URL) + "/wepay");
+        var path = (process.env.DATABASE_URL || process.env.MONGOHQ_URL) + "/wepay";
+        mongoose.connect(path);
         mongoose.connection.on("error", console.error.bind("[Model] Connection Failed: "));
         mongoose.connection.once("open", function() {
-            console.log("[Model] Connection Success!!!");
+            console.log("[Model] Connection Success!!! PATH: %s", path);
             connected = true;
         });
     }

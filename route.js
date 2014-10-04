@@ -2,6 +2,13 @@ var UserController = require("./app/controllers/UserController");
 var PostController = require("./app/controllers/PostController");
 
 var router = function(app) {
+    // index
+    app.get('/', function(req, res) {
+      res.render('index', function(err, html) {
+      
+      });
+    });
+
     // User REST routes
     app.post('/user', UserController.addUser);
     app.get('/user/:userid', UserController.getUser);

@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var apn = require('apn');
 
 // Specify Schema
 var userSchema = mongoose.Schema({
@@ -34,13 +35,17 @@ var connectToMongoDB = function() {
     }
 };
 
+var apnConnection = new apn.Connection({
+    pfx: __dirname + '/private'
+});
+
 // Helper Functions
 var mergeUser = function(user, update) {
     // assume no duplicate
-    if (update.user_posts != undefined || update.user_posts != null) {
+    if (update.user_posts !== undefined || update.user_posts !== null) {
         user.user_posts = user.user_posts.concat(update.user_posts);
     }
-    if (update.copayer_posts != undefined || update.copayer_posts != null) {
+    if (update.copayer_posts !== undefined || update.copayer_posts !== null) {
         user.copayer_posts = user.copayer_posts.concat(update.copayer_posts);
     }
     return user;
@@ -119,7 +124,7 @@ exports.addPost = function(post, callBack) {
         }
         console.log("[Model] Post Created: %s", new_post);
 
-        exports.updateUser(_post.userid, {user_posts: [_post.postid]}, function() {
+        exports.updateUser({userid: _post.userid, user_posts: [_post.postid]}, function(user) {
             console.log("[Model] User Updated for New Post");
             if (callBack) {
                 callBack(new_post);
@@ -162,9 +167,9 @@ exports.getPostsUserID = function(userid, callBack) {
     });
 };
 
-exports.updateUser = function(userid, update, callBack) {
+exports.updateUser = function(update, callBack) {
     // only update user_posts & copayer_posts
-    exports.getUser(userid, function(user) {
+    exports.getUser(update.userid, function(user) {
         if (user) {
             user = user[0];
             console.log("[Model] Applying update: %s", JSON.stringify(update));
@@ -174,7 +179,7 @@ exports.updateUser = function(userid, update, callBack) {
                 user_posts: user.user_posts,
                 copayer_posts: user.copayer_posts
             };
-            userModel.findOneAndUpdate({userid: userid}, newUpdate, function(err, numberAffected, raw) {
+            userModel.findOneAndUpdate({userid: update.userid}, newUpdate, function(err, numberAffected, raw) {
                 if (err) {
                     console.error.bind("[Model] Error occurs while updating: ");
                 } else {
@@ -192,9 +197,13 @@ exports.updateUser = function(userid, update, callBack) {
     })
 };
 
-exports.updatePost = function(postid, update, callBack) {
+var pushNotification = function(post) {
+  // TODO: Implement push notifications
+};
+
+exports.updatePost = function(update, callBack) {
     // only update title & money_requested & copayers
-    exports.getPost(postid, function(post) {
+    exports.getPost(update.postid, function(post) {
         if (post) {
             post = post[0];
             post = mergePost(post, update);
@@ -204,12 +213,15 @@ exports.updatePost = function(postid, update, callBack) {
                 money_requested: post.money_requested,
                 copayers: post.copayers
             };
-            postModel.findOneAndUpdate({postid: postid}, newUpdate, function(err, numberAffected, raw) {
+            postModel.findOneAndUpdate({postid: update.postid}, newUpdate, function(err, numberAffected, raw) {
                 if (err) {
                     console.error.bind("[Model] Error occurs while updating: ");
                 } else {
                     console.log("[Model] %s data has been updated", numberAffected);
                     console.log("[Model] mongoDB response: %s", raw);
+
+                    pushNotification(post)
+
                     if (callBack) {
                         callBack(post);
                     }
@@ -218,7 +230,7 @@ exports.updatePost = function(postid, update, callBack) {
         } else {
             console.error("[Model] Post does not exist");
         }
-    })
+    });
 };
 
 // Testing
@@ -285,7 +297,7 @@ exports.updatePost = function(postid, update, callBack) {
                             errors++;
                         }
 
-                        exports.updatePost(first_post.postid, {title: "hey! post updated!", money_requested: 1500, copayers: [{userid: "facebook123456", amount_paid: 300}]}, function(post) {
+                        exports.updatePost({postid: first_post.postid, title: "hey! post updated!", money_requested: 1500, copayers: [{userid: "facebook123456", amount_paid: 300}]}, function(post) {
                             console.log("[Model] This is post: %s", post);
                             if (post.title == "hey! post updated!" && post.money_requested == 1500 && post.copayers[0].userid == "facebook123456" && post.copayers[0].amount_paid == 300) {
                                 console.log("[Test] 6 updatePost is working");

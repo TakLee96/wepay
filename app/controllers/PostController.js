@@ -10,7 +10,7 @@ var model = require('../models/model');
 var addPost = function(req, res) {
   var post = req.body;
   model.addPost(post, function(new_post) {
-    if (new_post !== null && new_post.length != 0) {
+    if (new_post) {
       res.json(new_post[0]);
     } else {
       // TODO: Add error handling
@@ -24,7 +24,7 @@ var addPost = function(req, res) {
 var getPost = function(req, res) {
   var postid = req.params.postid;
   model.getPost(postid, function(post) {
-    if (post !== null && post.length != 0) {
+    if (post) {
       res.json(post[0]);
     } else {
       // TODO: Add error handling
@@ -38,7 +38,14 @@ var getPost = function(req, res) {
 //   new post object
 // }
 var updatePost = function(req, res) {
-  // TODO: Implement updatePost
+  var update = req.body;
+  model.updatePost(update.postid, function(post) {
+    if (post) {
+      res.json(post[0]);
+    } else {
+      // TODO: Add error handling
+    }
+  });
 };
 
 // Gets the posts associated with a userid
@@ -47,7 +54,7 @@ var updatePost = function(req, res) {
 var getPostsUserID = function(req, res) {
   var userid = req.params.userid;
   model.getPostsUserID(userid, function(posts){
-    if (posts !== null) {
+    if (posts) {
       res.json(posts);
     } else {
       // TODO: Add error handling

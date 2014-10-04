@@ -12,6 +12,9 @@ var model = require('../models/model');
 //   associated_posts: []
 // }
 var addUser = function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
   var user = req.body;
   model.addUser(user, function(new_user) {
     if (new_user !== null && new_user.length != 0) {

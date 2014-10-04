@@ -222,7 +222,7 @@ exports.updatePost = function(postid, update, callBack) {
 };
 
 // Testing
-var unit_testing = function() {
+/*var unit_testing = function() {
     var steve = {
         userid: "facebook123456",
         name: "Steve Jobs",
@@ -317,4 +317,4 @@ var unit_testing = function() {
             })
         });
     })
-};
+};*/

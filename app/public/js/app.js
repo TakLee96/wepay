@@ -129,8 +129,15 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     };
     $rootScope.makeInvitation = function() {
         console.log(JSON.stringify($rootScope.notifyFriends));
-        for (var i = 0; i < $rootScope.friends.length; i++) {
-            var friend = $rootScope.friends[i];
+        $rootScope.recursion($rootScope.recursion, 0);
+    };
+
+    $rootScope.recursion = function(callback, b) {
+        if (b == $rootScope.friends.length) {
+            $rootScope.showInvitation = false;
+            $rootScope.$apply();
+        } else {
+            var friend = $rootScope.friends[b];
             if ($rootScope.notifyFriends[friend.id]) {
                 var post_obj = {
                     userid: $rootScope.myInfo.id,
@@ -144,10 +151,10 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
                     }]
                 };
                 console.log("Creating Element %s", JSON.stringify(post_obj));
+                console.log($rootScope.detailPost.postid);
                 $http.post('/post/' + $rootScope.detailPost.postid, post_obj).success(function(data) {
                     console.log("Created! %s", JSON.stringify(data));
-                    $rootScope.showInvitation = false;
-                    $rootScope.$apply();
+                    callback(callback, b + 1)
                 });
             }
         }

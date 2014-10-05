@@ -26,7 +26,7 @@
         </div>
       </div> <!-- login -->
 
-      <div class="posts card-container row slide-up" ng-show="logInFinish">
+      <div class="posts card-container row slide-up" ng-show="logInFinish && !showDetail && !postStart">
         <dl class="tabs">
           <dd ng-class="{active: MeNotFriend}"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
           <dd ng-class="{active: !MeNotFriend}"><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
@@ -37,10 +37,10 @@
         <div class="tabs-content">
           <div class="content" ng-class="{active: MeNotFriend}" id="my-posts">
             <ul class="post-list">
-              <li class="post-list-item levitate" ng-repeat="post in posts">
+              <li class="post-list-item levitate" ng-repeat="post in posts" ng-click="getDetail(post);">
                 <div class="post-meta split">
                   <h5 class="post-title">{{post.title}}</h5>
-                  <span>Created by: <strong>{{post.name}}</strong></span>
+                  <span>Created by: <strong>{{post.name || (myInfo.first_name + myInfo.last_name)}}</strong></span>
                 </div>
                 <div class="post-progress split">
                   <span>{{calculateSum(post.copayers)}} / {{post.money_requested | currency}}</span>

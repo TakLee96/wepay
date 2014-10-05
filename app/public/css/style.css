@@ -13,6 +13,29 @@
   }
 }
 
+.slide-in {
+  animation-name: slide-in;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(50rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 100%;
+  }
+}
+
+.slide-up {
+  animation-name: slide-up;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+}
+
 body {
   background-image: url("/img/background_ambient.png");
   background-size: cover;
@@ -27,12 +50,6 @@ body {
   position: relative;
   top: 20%;
   text-align: center;
-}
-
-.slide-in {
-  animation-name: slide-in;
-  animation-duration: 1s;
-  animation-timing-function: ease-out;
 }
 
 .venmo-input {
@@ -58,4 +75,15 @@ body {
   font-family: 'Montserrat', sans-serif;
   color: #fff;
   animation-delay: 0.2s;
+}
+
+
+.posts {
+  width: 35rem;
+  height: 50rem;
+  background-color: #fff;
+  opacity: 0.75;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  border-radius: 1rem;
 }

@@ -1,4 +1,4 @@
-var model = require('../models/MongoDBModel');
+var model = require('../models/model');
 
 // device : {
 //   userid : user's id,

@@ -32,7 +32,7 @@
           <dd ng-class="{active: !MeNotFriend}"><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
         </dl>
 
-        <button class="button-create-post" ng-click="makeNewPost();">Create New Post</button>
+        <button class="button-create-post" ng-click="startPost();">Create New Post</button>
 
         <div class="tabs-content">
           <div class="content" ng-class="{active: MeNotFriend}" id="my-posts">
@@ -43,7 +43,7 @@
                   <span>Created by: <strong>{{post.name}}</strong></span>
                 </div>
                 <div class="post-progress split">
-                  <span>{{caculateSum(post.copayers)}} / {{post.money_requested | currency}}</span>
+                  <span>{{calculateSum(post.copayers)}} / {{post.money_requested | currency}}</span>
                   <div class="progress">
                     <span class="meter" style="width: 50%"></span>
                   </div>
@@ -59,7 +59,7 @@
                           <span>Created by: <strong>{{post.name}}</strong></span>
                       </div>
                       <div class="post-progress split">
-                          <span>{{caculateSum(post.copayers)}} / {{post.money_requested | currency}}</span>
+                          <span>{{calculateSum(post.copayers) | currency}} / {{post.money_requested | currency}}</span>
                           <div class="progress">
                               <span class="meter" style="width: 50%"></span>
                           </div>
@@ -76,31 +76,22 @@
         <div class="post-info card">
           <h3>{{detailPost.title}}</h3>
           <p>Created By: <strong>{{detailPost.name}}</strong></p>
-          <p>$85 / $150</p>
+          <p>{{calculateSum(detailPost.copayers) | currency}} / {{detailPost.money_requested | currency}}</p>
           <div class="progress">
             <span class="meter" style="width: 60%"></span>
           </div>
         </div>
 
         <div class="post-buttons">
-          <button class="button-invite">Invite Friends</button>
-          <button class="button-contribute">Contribute Money</button>
+          <button class="button-invite" ng-show="MeNotFriend" ng-click="inviteFriends();">Invite Friends</button>
+          <button class="button-contribute" ng-show="MeNotFriend" ng-click="contributeMoney();">Contribute Money</button>
         </div>
 
         <div class="post-contributors card">
           <h3>Contributers <small>(4)</small></h3>
           <ul class="contributor-list">
-            <li class="contributor-list-item">
-              Bob B. : $50.00
-            </li>
-            <li class="contributor-list-item">
-              Bill J. : $20.00
-            </li>
-            <li class="contributor-list-item">
-              Foo Bar : $10.00
-            </li>
-            <li class="contributor-list-item">
-              Bar Baz : $5.00
+            <li class="contributor-list-item" ng-repeat="payer in detailPost.copayers">
+              {{payer.name}} : {{payer.amount_paid | currency}}
             </li>
           </ul>
         </div>
@@ -110,18 +101,18 @@
         </div>
       </div> <!-- detail -->
 
-      <div class="post-create card-container row">
+      <div class="post-create card-container row" ng-show="postStart">
         <button class="button-back">&lt;</button>
 
         <div class="card">
           <h3>Create New Post</h3>
         </div>
 
-        <input class="card-text-input" type="text" placeholder="What're ya tryin' to buy?">
+        <input class="card-text-input" type="text" placeholder="What're ya tryin' to buy?" ng-model="newPostTitle">
 
-        <input class="card-text-input" type="text" placeholder="How much ya need? ($00.00)">
+        <input class="card-text-input" type="number" placeholder="How much ya need? ($00.00)" ng-model="newPostMoney">
 
-        <button class="card-button button-green">Save</button>
+        <button class="card-button button-green" ng-click="makeNewPost();">Save</button>
       </div>
 
     </div> <!-- wrapper -->

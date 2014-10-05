@@ -4,8 +4,23 @@
 
 var wepayApp = angular.module('wepayApp', []);
 
-wepayApp.controller('wepayCtrl', ['$rootScope', '$interval', function($rootScope, $interval) {
-    $rootScope.friends = "";
+wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootScope) {
+    $rootScope.friends = [];
+    $rootScope.myInfo = {};
+    $rootScope.logInFinish = false;
+    $rootScope.userObj = {};
+    $rootScope.getMyPosts = function() {
+        $rootScope.MeNotFriend = true;
+//        $http.get("http://wepay.herokuapp.com/user/" + $rootScope.myInfo.id).success(function(data) {
+//            $rootScope.userObj = data;
+//            $http.get("http://wepay.herokuapp.com/posts")
+//        });
+    };
+    $rootScope.getFriendsPosts = function() {
+        $rootScope.MeNotFriend = false;
+    };
+    $rootScope.MeNotFriend = true;
+    $rootScope.posts = [];
 }]);
 
 wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
@@ -80,6 +95,11 @@ wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
 // successful.  See statusChangeCallback() for when this call is made.
     function afterLogIn() {
         console.log('Welcome!  Fetching your information: ');
+        FB.api('/me', function(response) {
+            // TODO: the user has successfully logged into FB and wepay
+            console.log(JSON.stringify(response));
+            $rootScope.myInfo = response;
+        });
         FB.api('/me/permissions', function(response) {
             // TODO: the user has successfully logged into FB and wepay
             console.log(JSON.stringify(response));
@@ -88,6 +108,7 @@ wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
             // TODO: the user has successfully logged into FB and wepay
             console.log(response.data);
             $rootScope.friends = JSON.stringify(response.data);
+            $rootScope.logInFinish = true;
         });
     }
 

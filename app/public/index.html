@@ -12,12 +12,12 @@
     <script src="js/angular.min.js"></script>
     <script src="js/app.js"></script>
 
-    <div class="wrapper" >
-      <div class="login row">
+    <div class="wrapper" ng-controller="wepayCtrl">
+      <div class="login row" ng-hide="logInFinish">
         <div class="small-6 small-centered columns">
           <h1 class="splash-text slide-in">WePay</h1>
 
-          <div class="hide" ng-controller="wepayCtrl">
+          <div class="hide">
             <div></div>
           </div>
 
@@ -28,17 +28,17 @@
           </div>
         </div>
       </div>
-      <div class="posts row hide slide-up">
+      <div class="posts row slide-up" ng-show="logInFinish">
         <dl class="tabs">
-          <dd class="active"><a href="#my-posts">My Posts</a></dd>
-          <dd><a href="#friends-posts">Friends' Posts</a></dd>
+          <dd class=""><a id="my-posts" ng-click="getMyPosts();">My Posts</a></dd>
+          <dd><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
         </dl>
         <div class="tabs-content">
-          <div class="content active" id="my-posts">
-            <p>This is the first panel of the basic tab example. This is the first panel of the basic tab example.</p>
+          <div class="content" id="my-posts-content">
+            <p ng-repeat="post in posts" ng-show="MeNotFriend"></p>
           </div>
-          <div class="content" id="friends-posts">
-            <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
+          <div class="content" id="friends-posts-content">
+            <p ng-repeat="post in posts" ng-hide="MeNotFriend"></p>
           </div>
         </div>
       </div>
@@ -47,7 +47,9 @@
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
-        $(document).foundation();
+        $(document).ready(function() {
+            $(document).foundation();
+        });
     </script>
 </body>
 </html>

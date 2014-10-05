@@ -54,11 +54,11 @@ var updateUser = function(req, res) {
   });
 };
 
-var clean = function(req, res) {
-    model.clean(function() {
-        res.json({data: "[Controller] Clean!"});
-    });
-};
+//var clean = function(req, res) {
+//    model.clean(function() {
+//        res.json({data: "[Controller] Clean!"});
+//    });
+//};
 //
 //var find = function(req, res) {
 //    model.findAll(function(data1, data2) {
@@ -75,7 +75,7 @@ module.exports = {
   addUser: addUser,
   getUser: getUser,
   updateUser: updateUser,
-  clean: clean
+//  clean: clean
 //  find: find,
 //  test: test
 };

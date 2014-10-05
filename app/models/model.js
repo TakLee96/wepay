@@ -27,10 +27,9 @@ var postModel = mongoose.model("posts", postSchema);
 var connected = false;
 var connectToMongoDB = function(callback, obj, next) {
     if (!connected) {
-        //var path = process.env.MONGOHQ_URL + "/wepay";
-        var path = "mongodb://localhost/wepay";
+        var path = process.env.MONGOHQ_URL + "/wepay";
+//        var path = "mongodb://localhost/wepay";
         console.log("Try Connecting %s", path);
-        //var path = "mongodb://localhost/wepay";
         mongoose.connect(path);
         mongoose.connection.on("error", function() {
             console.error.bind("[Model] Connection Failed: ");

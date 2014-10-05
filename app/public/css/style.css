@@ -44,6 +44,7 @@ body {
 .wrapper {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .login {
@@ -80,10 +81,60 @@ body {
 
 .posts {
   width: 35rem;
-  height: 50rem;
-  background-color: #fff;
-  opacity: 0.75;
   margin-top: 3rem;
   margin-bottom: 3rem;
   border-radius: 1rem;
+  animation-delay: 0.5s;
+}
+
+.tabs {
+  display: table;
+  width: 100%;
+}
+
+.tabs dd {
+  display: table-cell;
+  width: 50%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.post-list {
+  list-style: none;
+  margin-left: 0;
+}
+
+.post-list-item {
+  display: table;
+  width: 100%;
+  background-color: #fff;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-list-item:hover {
+  cursor: pointer;
+}
+
+.levitate {
+  transition: transform 0.25s;
+  transition-timing-function: ease;
+}
+
+.levitate:hover {
+  z-index: 1000;
+  transform: scale(1.05, 1.05);
+}
+
+.split {
+  display: table-cell;
+  width: 50%;
+  vertical-align: middle;
+}
+
+.post-title {
+  margin: 0;
 }

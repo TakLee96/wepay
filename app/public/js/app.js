@@ -4,19 +4,11 @@
 
 var wepayApp = angular.module('wepayApp', []);
 
-wepayApp.controller('wepayCtrl', ['$scope', '$interval', function($scope, $interval, fbData) {
-    $scope.friends = "";
-
-    $interval(function() {
-        $scope.friends = fbData.getData('friends');
-    }, 100);
-
-
+wepayApp.controller('wepayCtrl', ['$rootScope', '$interval', function($rootScope, $interval) {
+    $rootScope.friends = "";
 }]);
 
-wepayApp.controller('FBCtrl', ['$rootScope', function($Scope) {
-    $scope.friends = [];
-
+wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
     // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
         console.log('statusChangeCallback');
@@ -95,19 +87,18 @@ wepayApp.controller('FBCtrl', ['$rootScope', function($Scope) {
         FB.api('/me/friends', function(response) {
             // TODO: the user has successfully logged into FB and wepay
             console.log(response.data);
-            $scope.friends = JSON.stringify(response.data);
-            fbData.setData('friends', $scope.friends);
+            $rootScope.friends = JSON.stringify(response.data);
         });
     }
 
-    $scope.logIn = function() {
+    $rootScope.logIn = function() {
         FB.login(function(response) {
             console.log("Log in success %s", JSON.stringify(response));
             afterLogIn();
         }, {scope: 'public_profile, email, user_friends'});
     };
 
-    $scope.logOut = function() {
+    $rootScope.logOut = function() {
         FB.logout(function(response) {
             // Person is now logged out
             console.log("FB logged out: %s", response);

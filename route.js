@@ -1,5 +1,6 @@
 var UserController = require("./app/controllers/UserController");
 var PostController = require("./app/controllers/PostController");
+var DeviceController = require("./app/controllers/DeviceController");
 var VenmoController = require("./app/controllers/VenmoController");
 
 var router = function(app) {
@@ -21,6 +22,8 @@ var router = function(app) {
     app.get('/venmo', VenmoController.venmoVerify);
     app.post('/venmo', VenmoController.venmoWebHook);
 
+    // Device Token Registration
+    app.post('/registerDevice', DeviceController.registerDevice);
 };
 
 module.exports = router;

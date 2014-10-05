@@ -72,16 +72,21 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         console.log("Constructing new post: %s", post);
         $rootScope.detailPost = {
             title: post.title,
+            name: $rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name,
             money_requested: post.money_requested,
             copayers: post.copayers
         };
         $rootScope.$apply();
     };
+    $rootScope.goBackToList = function() {
+        $rootScope.showDetail = false;
+        $rootScope.$apply();
+    };
     $rootScope.inviteFriends = function() {
-
+        // TODO: Implement inviteFriends
     };
     $rootScope.contributeMoney = function() {
-
+        // TODO: Implement contrubuteMoney
     };
     $rootScope.makeNewPost = function() {
         $rootScope.$apply();

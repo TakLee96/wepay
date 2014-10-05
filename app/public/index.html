@@ -8,7 +8,7 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css' />
     <script src="js/vendor/modernizr.js"></script>
 </head>
-<body>
+<body class="slide-in">
     <script src="js/angular.min.js"></script>
     <script src="js/app.js"></script>
 
@@ -39,48 +39,37 @@
         <button class="button-create-post">Create New Post</button>
 
         <div class="tabs-content">
-          <div class="content active" id="my-posts">
+          <div class="content" ng-class="{active: MeNotFriend}" id="my-posts">
             <ul class="post-list">
-              <li class="post-list-item levitate">
+              <li class="post-list-item levitate" ng-repeat="post in posts">
                 <div class="post-meta split">
-                  <h5 class="post-title">House Party Alcohol Fund</h5>
-                  <span>Created by: <strong>Philip Hayes</strong></span>
+                  <h5 class="post-title">{{post.title}}</h5>
+                  <span>Created by: <strong>{{myInfo.name}}</strong></span>
                 </div>
                 <div class="post-progress split">
-                  <span>$50 / $100</span>
+                  <span>$50 / {{post.money_requested | currency}}</span>
                   <div class="progress">
                     <span class="meter" style="width: 50%"></span>
                   </div>
                 </div>
               </li>
-              <li class="post-list-item levitate">
-                <div class="post-meta split">
-                  <h5 class="post-title">Money for Apartment TV</h5>
-                  <span>Created by: <strong>Yihe Li</strong></span>
-                </div>
-                <div class="post-progress split">
-                  <span>$100 / $500</span>
-                  <div class="progress">
-                    <span class="meter" style="width: 20%"></span>
-                  </div>
-                </div>
-              </li>
-              <li class="post-list-item levitate">
-                <div class="post-meta split">
-                  <h5 class="post-title">Trip to Guatemala</h5>
-                  <span>Created by: <strong>Tak Lee</strong></span>
-                </div>
-                <div class="post-progress split">
-                  <span>$2000 / $2500</span>
-                  <div class="progress">
-                    <span class="meter" style="width: 80%"></span>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
-          <div class="content" id="friends-posts-content">
-            <div ng-repeat="post in posts">{{post.title}}</div>
+          <div class="content" id="friends-posts-content" ng-class="{active: !MeNotFriend}">
+              <ul class="post-list">
+                  <li class="post-list-item levitate" ng-repeat="post in posts">
+                      <div class="post-meta split">
+                          <h5 class="post-title">{{post.title}}</h5>
+                          <span>Created by: <strong>{{myInfo.name}}</strong></span>
+                      </div>
+                      <div class="post-progress split">
+                          <span>$50 / {{post.money_requested | currency}}</span>
+                          <div class="progress">
+                              <span class="meter" style="width: 50%"></span>
+                          </div>
+                      </div>
+                  </li>
+              </ul>
           </div>
         </div>
       </div> <!-- posts -->
@@ -103,9 +92,7 @@
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
-        $(document).ready(function() {
             $(document).foundation();
-        });
     </script>
 </body>
 </html>

@@ -13,6 +13,7 @@
     <script src="js/app.js"></script>
 
     <div class="wrapper" ng-controller="wepayCtrl">
+
       <div class="login row" ng-hide="logInFinish">
         <div class="small-6 small-centered columns">
           <h1 class="splash-text slide-in">WePay</h1>
@@ -27,12 +28,16 @@
             <button class="login-button slide-in" ng-click="logIn();">Login with Facebook</button>
           </div>
         </div>
-      </div>
-      <div class="posts row slide-up" ng-show="logInFinish">
+      </div> <!-- login -->
+
+      <div class="posts card row slide-up" ng-show="logInFinish">
         <dl class="tabs">
-          <dd class=""><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
+          <dd class="active"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
           <dd><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
         </dl>
+
+        <button class="button-create-post">Create New Post</button>
+
         <div class="tabs-content">
           <div class="content" ng-class="{active: MeNotFriend}" id="my-posts">
             <ul class="post-list">
@@ -67,8 +72,49 @@
               </ul>
           </div>
         </div>
-      </div>
-    </div>
+      </div> <!-- posts -->
+
+      <div class="detail card row">
+        <button class="button-back">&lt;</button>
+
+        <div class="post-info detail-card">
+          <h3>House Party Alcohol Fund</h3>
+          <p>Created By: <strong>Philip Hayes</strong></p>
+          <p>$85 / $150</p>
+          <div class="progress">
+            <span class="meter" style="width: 60%"></span>
+          </div>
+        </div>
+
+        <div class="post-buttons">
+          <button class="button-invite">Invite Friends</button>
+          <button class="button-contribute">Contribute Money</button>
+        </div>
+
+        <div class="post-contributors detail-card">
+          <h3>Contributers <small>(4)</small></h3>
+          <ul class="contributor-list">
+            <li class="contributor-list-item">
+              Bob B. : $50.00
+            </li>
+            <li class="contributor-list-item">
+              Bill J. : $20.00
+            </li>
+            <li class="contributor-list-item">
+              Foo Bar : $10.00
+            </li>
+            <li class="contributor-list-item">
+              Bar Baz : $5.00
+            </li>
+          </ul>
+        </div>
+
+        <div class="post-comments detail-card">
+          <h3>Comments</h3>
+        </div>
+      </div> <!-- detail -->
+
+    </div> <!-- wrapper -->
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>

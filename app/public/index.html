@@ -22,7 +22,7 @@
             <div></div>
           </div>
 
-          <input class="venmo-input slide-in" type="text" placeholder="Venmo Username">
+          <input class="card-text-input slide-in" type="text" placeholder="Venmo Username">
 
           <div ng-controller="FBCtrl">
             <button class="login-button slide-in" ng-click="logIn();">Login with Facebook</button>
@@ -30,7 +30,7 @@
         </div>
       </div> <!-- login -->
 
-      <div class="posts card row slide-up" ng-show="logInFinish">
+      <div class="posts card-container row slide-up" ng-show="logInFinish">
         <dl class="tabs">
           <dd class="active"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
           <dd><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
@@ -74,10 +74,10 @@
         </div>
       </div> <!-- posts -->
 
-      <div class="detail card row">
+      <div class="detail card-container row">
         <button class="button-back">&lt;</button>
 
-        <div class="post-info detail-card">
+        <div class="post-info card">
           <h3>House Party Alcohol Fund</h3>
           <p>Created By: <strong>Philip Hayes</strong></p>
           <p>$85 / $150</p>
@@ -91,7 +91,7 @@
           <button class="button-contribute">Contribute Money</button>
         </div>
 
-        <div class="post-contributors detail-card">
+        <div class="post-contributors card">
           <h3>Contributers <small>(4)</small></h3>
           <ul class="contributor-list">
             <li class="contributor-list-item">
@@ -109,10 +109,24 @@
           </ul>
         </div>
 
-        <div class="post-comments detail-card">
+        <div class="post-comments card">
           <h3>Comments</h3>
         </div>
       </div> <!-- detail -->
+
+      <div class="post-create card-container row">
+        <button class="button-back">&lt;</button>
+
+        <div class="card">
+          <h3>Create New Post</h3>
+        </div>
+
+        <input class="card-text-input" type="text" placeholder="What're ya tryin' to buy?">
+
+        <input class="card-text-input" type="text" placeholder="How much ya need? ($00.00)">
+
+        <button class="card-button button-green">Save</button>
+      </div>
 
     </div> <!-- wrapper -->
 

@@ -300,7 +300,7 @@ exports.registerDevice = function (device, callback) {
         // Just to be safe
         var _device = {
             userid: device.userid,
-            device_token: device.device_token,
+            device_token: device.device_token
         };
 
         deviceModel.create(_device, function (err, new_device) {
@@ -394,11 +394,6 @@ exports.updatePost = function(update, callback) {
             }
         });
     }
-};
-
-exports.registerDevice = function(device, callback) {
-    console.log(device);
-    callback(device);
 };
 
 //exports.clean = function(callback) {

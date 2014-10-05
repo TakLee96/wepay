@@ -5,6 +5,7 @@
 var wepayApp = angular.module('wepayApp', []);
 
 wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootScope) {
+    // fundamental variables
     $rootScope.friends = [];
     $rootScope.myInfo = {};
     $rootScope.logInFinish = false;
@@ -16,6 +17,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.postStart = false;
     $rootScope.newPost = {title: "", money: 0};
 
+    // fundamental functions
     $rootScope.getMyPosts = function() {
         $rootScope.MeNotFriend = true;
         var url1 = "/user/" + $rootScope.myInfo.id;
@@ -80,6 +82,11 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.goBackToList = function() {
         if ($rootScope.showDetail) $rootScope.showDetail = false;
         if ($rootScope.postStart) $rootScope.postStart = false;
+        if ($rootScope.MeNotFriend) {
+            $rootScope.getMyPosts();
+        } else {
+            $rootScope.getFriendsPosts();
+        }
         $rootScope.$apply();
     };
     $rootScope.inviteFriends = function() {

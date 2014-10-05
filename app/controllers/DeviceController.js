@@ -13,5 +13,5 @@ var registerDevice = function (req, res) {
 };
 
 module.exports = {
-  registerDevice: registerDevice,
+  registerDevice: registerDevice
 };

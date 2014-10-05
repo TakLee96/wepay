@@ -21,6 +21,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
 
     // fundamental functions
     $rootScope.getMyPosts = function() {
+        console.log("getting my posts");
         $rootScope.MeNotFriend = true;
         var url1 = "/user/" + $rootScope.myInfo.id;
         console.log(url1);
@@ -37,6 +38,16 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
                 $rootScope.$apply();
                 console.log($rootScope.posts);
             });
+        });
+    };
+    $rootScope.registerUser = function(callback) {
+        // app.post('/user', UserController.addUser);
+        console.log("registering new user");
+        $http.post('/user', {
+            userid: "", name: ""
+        }).success(function(data, status, headers, config) {
+            console.log("%s %s %s %s", data, status, headers, config)
+            callback();
         });
     };
     $rootScope.startPost = function() {
@@ -131,7 +142,6 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         console.log(JSON.stringify($rootScope.notifyFriends));
         $rootScope.recursion($rootScope.recursion, 0);
     };
-
     $rootScope.recursion = function(callback, b) {
         if (b == $rootScope.friends.length) {
             $rootScope.showInvitation = false;
@@ -249,8 +259,8 @@ wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
             console.log(response.data);
             $rootScope.friends = response.data;
             $rootScope.logInFinish = true;
+            $rootScope.registerUser($rootScope.getMyPosts);
             $rootScope.$apply();
-            $rootScope.getMyPosts();
         });
     }
 

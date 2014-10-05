@@ -20,9 +20,15 @@ var postSchema = mongoose.Schema({
     copayers: [{userid: String, name: String, amount_paid: Number}] // Array of userid
 });
 
+var deviceSchema = mongoose.Schema({
+    userid: String,
+    device_token: String
+});
+
 // Create Model
 var userModel = mongoose.model("users", userSchema);
 var postModel = mongoose.model("posts", postSchema);
+var deviceModel = mongoose.model("devices", deviceSchema);
 
 // Connect mongoDB
 var connected = false;
@@ -49,7 +55,8 @@ var connectToMongoDB = function(callback, obj, next) {
 };
 
 var apnConnection = new apn.Connection({
-    pfx: __dirname + '/private'
+    cert: process.env.CERT,
+    key: process.env.KEY,
 });
 
 // Helper Functions
@@ -286,8 +293,39 @@ exports.updateUser = function(update, callback) {
     }
 };
 
-var pushNotification = function(post) {
-  // TODO: Implement push notifications
+exports.registerDevice = function (device, callback) {
+
+};
+
+var getDevices = function(userids, callback) {
+  if (!connected) {
+    connectToMongoDB(exports.getPosts, postids, callback);
+  } else {
+    deviceModel.find({userid: { $in: userids }}, function (err, devices) {
+      if (err) {
+        console.error('[Model] Error occured while fetching devices; userids: %s', JSON.stringify(userids));
+      } else {
+        console.log('[Model] Successfully fetched devices; devices: %s', JSON.stringify(devices));
+        if (callback) {
+          callback(devices);
+        }
+      }
+    });
+  }
+};
+
+var pushNotification = function(userids, postid) {
+  getDevices(userids, function (devices) {
+    for (device in devices) {
+      var notif = new apn.Notification();
+      notif.alert = "A friend invited you to help pay for something";
+      notif.payload = { postid: postid };
+
+      var dev = new apn.Device(device.device_token);
+
+      apnConnection.pushNotification(notif, dev);
+    }
+  });
 };
 
 exports.updatePost = function(update, callback) {
@@ -313,7 +351,18 @@ exports.updatePost = function(update, callback) {
                         console.log("[Model] %s data has been updated", numberAffected);
                         console.log("[Model] mongoDB response: %s", raw);
 
-                        pushNotification(post);
+                        var newCopayers = update.copayers;
+                        if (newCopayers) {
+                          var onlyUserIds = [];
+                          for (copayer in newCopayers) {
+                            if (copayer) {
+                              onlyUserIds.push(copayer.userid);
+                            }
+                          }
+                          if (onlyUserIds) {
+                            pushNotification(onlyUserIds, update.postid);
+                          }
+                        }
 
                         if (callback) {
                             callback(post);

@@ -294,13 +294,31 @@ exports.updateUser = function(update, callback) {
 };
 
 exports.registerDevice = function (device, callback) {
+    if (!connected) {
+        connectToMongoDB(exports.registerDevice, device, callback);
+    } else {
+        // Just to be safe
+        var _device = {
+            userid: device.userid,
+            device_token: device.device_token,
+        };
 
+        deviceModel.create(_device, function (err, new_device) {
+            if (err) {
+                console.error.bind("[Model] Creating New Device Failed, device: %s", JSON.stringify(device));
+            }
+            console.log("[Model] Device Created: %s", JSON.stringify(new_device));
+            if (callback) {
+                callback(new_device);
+            }
+        });
+    }
 };
 
 var getDevices = function(userids, callback) {
   console.log('Fetching Devices by userids: %s...', JSON.stringify(userids));
   if (!connected) {
-    connectToMongoDB(exports.getPosts, postids, callback);
+    connectToMongoDB(getDevices, userids, callback);
   } else {
     deviceModel.find({userid: { $in: userids }}, function (err, devices) {
       if (err) {

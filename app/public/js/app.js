@@ -13,13 +13,17 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.detailPost = {};
     $rootScope.MeNotFriend = true;
     $rootScope.showDetail = false;
+    $rootScope.postStart = false;
+    $rootScope.newPostTitle = "";
+    $rootScope.newPostMoney = 0;
+
     $rootScope.getMyPosts = function() {
         $rootScope.MeNotFriend = true;
-        var url1 = "http://wepay.herokuapp.com/user/" + $rootScope.myInfo.id;
+        var url1 = "/user/" + $rootScope.myInfo.id;
         console.log(url1);
         $http.get(url1).success(function(data, status, headers, config) {
             $rootScope.userObj = data;
-            var url2 = "http://wepay.herokuapp.com/posts?postids=";
+            var url2 = "/posts?postids=";
             for (var i = 0; i < data.user_posts.length - 1; i++) {
                 url2 += data.user_posts[i] + ",";
             }
@@ -32,13 +36,17 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
             });
         });
     };
+    $rootScope.startPost = function() {
+        $rootScope.postStart = true;
+        $rootScope.$apply();
+    };
     $rootScope.getFriendsPosts = function() {
         $rootScope.MeNotFriend = false;
-        var url1 = "http://wepay.herokuapp.com/user/" + $rootScope.myInfo.id;
+        var url1 = "/user/" + $rootScope.myInfo.id;
         console.log(url1);
         $http.get(url1).success(function(data, status, headers, config) {
             $rootScope.userObj = data;
-            var url2 = "http://wepay.herokuapp.com/posts?postids=";
+            var url2 = "/posts?postids=";
             for (var i = 0; i < data.copayer_posts.length - 1; i++) {
                 url2 += data.copayer_posts[i] + ",";
             }
@@ -51,10 +59,8 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
             });
         });
     };
-    $rootScope.makeNewPost = function() {
-
-    };
     $rootScope.calculateSum = function(arr) {
+        if (!arr) return 0;
         var total = 0;
         for (var i = 0; i < arr.length; i++) {
             total += arr[i].amount_paid;
@@ -62,8 +68,37 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         return total;
     };
     $rootScope.getDetail  = function(post) {
+        $rootScope.showDetail = true;
+        console.log("Constructing new post: %s", post);
+        $rootScope.detailPost = {
+            title: post.title,
+            money_requested: post.money_requested,
+            copayers: post.copayers
+        };
+        $rootScope.$apply();
+    };
+    $rootScope.inviteFriends = function() {
 
     };
+    $rootScope.contributeMoney = function() {
+
+    };
+    $rootScope.makeNewPost = function() {
+        $rootScope.$apply();
+        $http.post('/post', {
+            userid: $rootScope.myInfo.id,
+            name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last),
+            title: $rootScope.newPostTitle,
+            money_requested: $rootScope.newPostMoney
+        }).success(function(data) {
+            console.log("Created! %s", data)
+            $rootScope.newPostTitle = "";
+            $rootScope.newPostMoney = 0;
+            $rootScope.postStart = false;
+            $rootScope.$apply();
+        });
+    };
+
 }]);
 
 wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {

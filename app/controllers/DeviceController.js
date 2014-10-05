@@ -10,3 +10,7 @@ var registerDevice = function (req, res) {
     res.json(device);
   });
 };
+
+module.exports = {
+  registerDevice: registerDevice,
+};

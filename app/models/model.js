@@ -122,6 +122,7 @@ exports.getUser = function(userid, callback) {
     if (!connected) {
         connectToMongoDB(exports.getUser, userid, callback);
     } else {
+        console.log("[Model] Finding User with ID %s", userid);
         userModel.find({userid: userid}, function (err, user) {
             if (err) {
                 console.error.bind("[Model] Getting User Failed: ")
@@ -129,10 +130,11 @@ exports.getUser = function(userid, callback) {
             if (user != null && user != undefined && user.length != 0) {
                 console.log("[Model] User by ID %s Found: %s", userid, JSON.stringify(user));
             } else {
-                console.error("[Model] User Not Found!");
+                console.error("[Model] User Lost! %s", JSON.stringify(user));
             }
             if (callback) {
                 // null Case handled in controller
+                console.log("[Model] Calling back user %s", JSON.stringify(user));
                 callback(user);
             }
         });
@@ -248,6 +250,7 @@ exports.updateUser = function(update, callback) {
         connectToMongoDB(exports.updateUser, update, callback);
     } else {
         // only update user_posts & copayer_posts
+        console.log("[Model] Finding User: %s", update.userid);
         exports.getUser(update.userid, function (user) {
             if (user != null && user != undefined && user.length != 0) {
                 user = user[0];
@@ -271,7 +274,7 @@ exports.updateUser = function(update, callback) {
                     }
                 });
             } else {
-                console.error("[Model] User does not exist");
+                console.error("[Model] User does not exist %s %s", user, JSON.stringify(user));
             }
         })
     }

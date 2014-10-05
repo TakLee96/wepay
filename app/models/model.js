@@ -288,7 +288,7 @@ exports.findAll = function(callback) {
 };
 
 // Testing
-/*var unit_testing = function() {
+exports.unit_testing = function() {
     var steve = {
         userid: "facebook123456",
         name: "Steve Jobs",
@@ -383,4 +383,4 @@ exports.findAll = function(callback) {
             })
         });
     })
-};*/
+};

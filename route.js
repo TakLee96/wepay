@@ -19,6 +19,7 @@ var router = function(app) {
     // Temporary Method
     app.get('/clean', UserController.clean);
     app.get('/find', UserController.find);
+    app.get('/test', UserController.test);
 };
 
 module.exports = router;

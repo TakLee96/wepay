@@ -56,14 +56,19 @@ var updateUser = function(req, res) {
 
 var clean = function(req, res) {
     model.clean(function() {
-        res.end("[Controller] Cleaned");
+        res.json({data: "[Controller] Clean!"});
     })
 };
 
 var find = function(req, res) {
     model.findAll(function(data1, data2) {
-        res.end("[Controller] Found All %s, %s", data1, data2);
+        res.json({data: "[Controller] Clean!", data1: data1, data2: data2});
     })
+};
+
+var test = function(req, res){
+    model.unit_testing();
+    res.json({data: "shit"});
 };
 
 module.exports = {
@@ -71,5 +76,6 @@ module.exports = {
   getUser: getUser,
   updateUser: updateUser,
   clean: clean,
-  find: find
+  find: find,
+  test: test
 };

@@ -15,7 +15,9 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.MeNotFriend = true;
     $rootScope.showDetail = false;
     $rootScope.postStart = false;
+    $rootScope.showInvitation = false;
     $rootScope.newPost = {title: "", money: 0};
+    $rootScope.notifyFriends = {};
 
     // fundamental functions
     $rootScope.getMyPosts = function() {
@@ -72,6 +74,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         $rootScope.showDetail = true;
         console.log("Constructing new post: %s", post);
         $rootScope.detailPost = {
+            postid: post.postid,
             title: post.title,
             name: $rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name,
             money_requested: post.money_requested,
@@ -82,6 +85,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.goBackToList = function() {
         if ($rootScope.showDetail) $rootScope.showDetail = false;
         if ($rootScope.postStart) $rootScope.postStart = false;
+        if ($rootScope.showInvitation) $rootScope.showInvitation = false;
         if ($rootScope.MeNotFriend) {
             $rootScope.getMyPosts();
         } else {
@@ -91,9 +95,16 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     };
     $rootScope.inviteFriends = function() {
         // TODO: Implement inviteFriends
+        $rootScope.showDetail = false;
+        $rootScope.showInvitation = true;
+        $rootScope.notifyFriends = {};
+        for (friend in $rootScope.friends) {
+            $rootScope.notifyFriends[friend.id] = false;
+        }
+        $rootScope.$apply();
     };
     $rootScope.contributeMoney = function() {
-        // TODO: Implement contrubuteMoney
+        alert("Sorry, the developer sucks.");
     };
     $rootScope.makeNewPost = function() {
         $rootScope.$apply();
@@ -112,6 +123,29 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
             $rootScope.$apply();
         });
     };
+    $rootScope.makeInvitation = function() {
+        for (friend in $rootScope.friends) {
+            if ($rootScope.notifyFriends[friend.id]) {
+                var post_obj = {
+                    userid: $rootScope.myInfo.id,
+                    name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name),
+                    title: $rootScope.detailPost.title,
+                    money_requested: $rootScope.detailPost.money,
+                    copayers: [{
+                        userid: friend.id,
+                        name: friend.first_name + " " + friend.last_name,
+                        amount_paid: 0
+                    }]
+                };
+                console.log("Creating Element %s", JSON.stringify(post_obj));
+                $http.post('/post/' + $rootScope.detailPost.postid, post_obj).success(function(data) {
+                    console.log("Created! %s", JSON.stringify(data));
+                    $rootScope.showInvitation = false;
+                    $rootScope.$apply();
+                });
+            }
+        }
+    }
 
 }]);
 

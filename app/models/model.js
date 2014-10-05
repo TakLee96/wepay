@@ -153,6 +153,8 @@ exports.getUser = function(userid, callback) {
 };
 
 exports.addPost = function(post, callback) {
+    // TODO: add push notification
+
     if (!connected) {
         connectToMongoDB(exports.addPost, post, callback);
     } else {
@@ -298,6 +300,7 @@ exports.registerDevice = function (device, callback) {
         connectToMongoDB(exports.registerDevice, device, callback);
     } else {
         // Just to be safe
+
         var _device = {
             userid: device.userid,
             device_token: device.device_token

@@ -26,7 +26,7 @@
         </div>
       </div> <!-- login -->
 
-      <div class="posts card-container row" ng-show="logInFinish && !showDetail && !postStart">
+      <div class="posts card-container row" ng-show="logInFinish && !showDetail && !postStart && !showInvitation">
         <dl class="tabs">
           <dd ng-class="{active: MeNotFriend}"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
           <dd ng-class="{active: !MeNotFriend}"><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
@@ -116,30 +116,22 @@
         <button class="card-button button-green" ng-click="makeNewPost();">Save</button>
       </div> <!-- post-create -->
 
-      <!--<div class="invite-friends card-container row">-->
-        <!--<button class="button-back">&lt;</button>-->
-        <!---->
-        <!--<div class="card">-->
-          <!--<h3>Invite Friends to Help Pay</h3>-->
-        <!--</div>-->
+      <div class="invite-friends card-container row" ng-show="showInvitation">
+        <button class="button-back" ng-click="goBackToList();">&lt;</button>
 
-        <!--<div class="card">-->
-          <!--<h5 class="inline-header">Philip Hayes</h5>-->
-          <!--<input class="inline-checkbox" type="checkbox">-->
-        <!--</div>-->
+        <div class="card">
+          <h3>Invite Friends to Help Pay</h3>
+        </div>
 
-        <!--<div class="card">-->
-          <!--<h5 class="inline-header">Tak Lee</h5>-->
-          <!--<input class="inline-checkbox" type="checkbox">-->
-        <!--</div>-->
+        <div class="card" ng-repeat="friend in friends">
+          <h5 class="inline-header">{{friend.name}}</h5>
+          <form name="invitationForm">
+            <input class="inline-checkbox" name="{{friend.id}}" type="checkbox" ng-model="notifyFriends[friend.id]"/>
+          </form>
+        </div>
 
-        <!--<div class="card">-->
-          <!--<h5 class="inline-header">Ryan Li</h5>-->
-          <!--<input class="inline-checkbox" type="checkbox">-->
-        <!--</div>-->
-
-        <!--<button class="card-button button-green">Save</button>-->
-      <!--</div> &lt;!&ndash; invite-friends &ndash;&gt;-->
+        <button class="card-button button-green" ng-click="makeInvitation();">Save</button>
+      </div> <!-- invite-friends -->
 
 
     </div> <!-- wrapper -->

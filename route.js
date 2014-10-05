@@ -21,7 +21,6 @@ var router = function(app) {
     app.get('/venmo', VenmoController.venmoVerify);
     app.post('/venmo', VenmoController.venmoWebHook);
 
-//    app.get('/clean', UserController.clean);
 };
 
 module.exports = router;

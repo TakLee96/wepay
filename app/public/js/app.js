@@ -25,6 +25,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
             console.log(url2);
             $.getJSON(url2).success(function(data) {
                 $rootScope.posts = data;
+                $rootScope.$apply();
                 console.log($rootScope.posts);
             });
         });
@@ -45,6 +46,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
                 console.log(url2);
                 $.getJSON(url2).success(function(data) {
                     $rootScope.posts = data;
+                    $rootScope.$apply();
                     console.log($rootScope.posts);
                 });
             });
@@ -138,6 +140,8 @@ wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
             console.log(response.data);
             $rootScope.friends = JSON.stringify(response.data);
             $rootScope.logInFinish = true;
+            $rootScope.$apply();
+            $rootScope.getMyPosts();
         });
     }
 

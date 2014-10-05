@@ -1,5 +1,3 @@
-
-
 /**
  * Venmo verifies our API endpoint by sending a query parameter,
  * venmo_challenge, and expecting us to return the parameter as plain text.

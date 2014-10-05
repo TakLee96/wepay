@@ -43,7 +43,7 @@
                   <span>Created by: <strong>{{post.name || (myInfo.first_name + " " + myInfo.last_name)}}</strong></span>
                 </div>
                 <div class="post-progress split">
-                  <span>{{calculateSum(post.copayers)}} / {{post.money_requested | currency}}</span>
+                  <span>{{calculateSum(post.copayers) | currency}} / {{post.money_requested | currency}}</span>
                   <div class="progress">
                     <span class="meter" style="width: 50%"></span>
                   </div>
@@ -88,7 +88,7 @@
         </div>
 
         <div class="post-contributors card">
-          <h3>Contributers <small>(4)</small></h3>
+          <h3>Contributers <small>({{detailPost.copayers.length || 0}})</small></h3>
           <ul class="contributor-list">
             <li class="contributor-list-item" ng-repeat="payer in detailPost.copayers">
               {{payer.name}} : {{payer.amount_paid | currency}}
@@ -109,8 +109,8 @@
         </div>
 
         <form name="postForm">
-            <input class="card-text-input" type="text" name="postTitle" placeholder="What're ya tryin' to buy?" ng-model="newPost.title"/>
-            <input class="card-text-input" type="number" name="postMoney" placeholder="How much ya need? ($00.00)" ng-model="newPost.money"/>
+            <input value="" class="card-text-input" type="text" name="postTitle" placeholder="What're ya tryin' to buy?" ng-model="newPost.title">
+            <input value="" class="card-text-input" type="number" name="postMoney" placeholder="How much ya need? ($00.00)" ng-model="newPost.money">
         </form>
 
         <button class="card-button button-green" ng-click="makeNewPost();">Save</button>
@@ -126,7 +126,7 @@
         <div class="card" ng-repeat="friend in friends">
           <h5 class="inline-header">{{friend.name}}</h5>
           <form name="invitationForm">
-            <input class="inline-checkbox" name="{{friend.id}}" type="checkbox" ng-model="notifyFriends[friend.id]"/>
+            <input class="inline-checkbox" name="{{friend.id}}" type="checkbox" ng-model="notifyFriends[friend.id]">
           </form>
         </div>
 

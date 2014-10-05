@@ -1,4 +1,4 @@
-var model = require('../models/MongoDBModel');
+var model = require('../models/model');
 
 // Adds a user to the database
 // req.body : {
@@ -13,7 +13,7 @@ var model = require('../models/MongoDBModel');
 var addUser = function(req, res) {
   var user = req.body;
   console.log("[UserController] Try to create User: %s", JSON.stringify(user));
-  MongoDBModel.addUser(user, function(new_user) {
+  model.addUser(user, function(new_user) {
     if (new_user) {
       console.log('[UserController] Added new_user: %s', JSON.stringify(new_user));
       res.json(new_user[0]);
@@ -28,7 +28,7 @@ var addUser = function(req, res) {
 // return : user object as json
 var getUser = function(req, res) {
   var userid = req.params.userid;
-  MongoDBModel.getUser(userid, function(user) {
+  model.getUser(userid, function(user) {
     if (user) {
       res.json(user[0]);
     } else {
@@ -45,7 +45,7 @@ var getUser = function(req, res) {
 // return : new user object
 var updateUser = function(req, res) {
   var update = req.body;
-  MongoDBModel.updateUser(update, function(user) {
+  model.updateUser(update, function(user) {
     if (user) {
       res.json(user[0]);
     } else {

@@ -15,6 +15,7 @@ var postSchema = mongoose.Schema({
     postid: String,
     userid: String,
     title: String,
+    name: String,
     money_requested: Number,
     copayers: [{userid: String, name: String, amount_paid: Number}] // Array of userid
 });
@@ -33,10 +34,9 @@ var deviceModel = mongoose.model("devices", deviceSchema);
 var connected = false;
 var connectToMongoDB = function(callback, obj, next) {
     if (!connected) {
-        //var path = process.env.MONGOHQ_URL + "/wepay";
-        var path = "mongodb://localhost/wepay";
+        var path = process.env.MONGOHQ_URL + "/wepay";
+//        var path = "mongodb://localhost/wepay";
         console.log("Try Connecting %s", path);
-        //var path = "mongodb://localhost/wepay";
         mongoose.connect(path);
         mongoose.connection.on("error", function() {
             console.error.bind("[Model] Connection Failed: ");
@@ -77,6 +77,9 @@ var mergePost = function(post, update) {
     // assume no duplicate
     if (update.title) {
         post.title = update.title;
+    }
+    if (update.name) {
+        post.name = update.name;
     }
     if (update.money_requested != undefined || update.money_requested != null) {
         post.money_requested = update.money_requested;
@@ -172,6 +175,7 @@ exports.addPost = function(post, callback) {
         var _post = {
             postid: uuid.v4(),
             userid: post.userid,
+            name: post.name,
             title: post.title,
             money_requested: post.money_requested,
             copayers: copayers
@@ -337,6 +341,7 @@ exports.updatePost = function(update, callback) {
                 newUpdate = {
                     title: post.title,
                     money_requested: post.money_requested,
+                    name: post.name,
                     copayers: post.copayers
                 };
                 postModel.findOneAndUpdate({postid: update.postid}, newUpdate, function (err, numberAffected, raw) {

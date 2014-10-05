@@ -30,7 +30,7 @@
         </div>
       </div> <!-- login -->
 
-      <div class="posts row slide-up" ng-show="logInFinish">
+      <div class="posts card row slide-up" ng-show="logInFinish">
         <dl class="tabs">
           <dd class="active"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
           <dd><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
@@ -84,6 +84,19 @@
           </div>
         </div>
       </div> <!-- posts -->
+
+      <div class="detail card row" ng-hide="logInFinished">
+        <button class="button-back">&lt;</button>
+
+        <div class="post-info detail-card">
+          <h3>House Party Alcohol Fund</h3>
+          <p>Created By: <strong>Philip Hayes</strong></p>
+          <p>$120 / $150</p>
+          <div class="progress">
+            <span class="meter" style="width: 80%"></span>
+          </div>
+        </div>
+      </div> <!-- detail -->
 
     </div> <!-- wrapper -->
 

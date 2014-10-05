@@ -18,10 +18,6 @@
         <div class="small-6 small-centered columns">
           <h1 class="splash-text slide-in">WePay</h1>
 
-          <div class="hide">
-            <div></div>
-          </div>
-
           <input class="card-text-input slide-in" type="text" placeholder="Venmo Username">
 
           <div ng-controller="FBCtrl">
@@ -32,11 +28,11 @@
 
       <div class="posts card-container row slide-up" ng-show="logInFinish">
         <dl class="tabs">
-          <dd class="active"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
-          <dd><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
+          <dd ng-class="{active: MeNotFriend}"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
+          <dd ng-class="{active: !MeNotFriend}"><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
         </dl>
 
-        <button class="button-create-post">Create New Post</button>
+        <button class="button-create-post" ng-click="makeNewPost();">Create New Post</button>
 
         <div class="tabs-content">
           <div class="content" ng-class="{active: MeNotFriend}" id="my-posts">

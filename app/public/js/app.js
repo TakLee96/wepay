@@ -52,6 +52,9 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
             });
         });
     };
+    $rootScope.makeNewPost = function() {
+
+    };
 }]);
 
 wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {

@@ -152,9 +152,14 @@ exports.addPost = function(post, callback) {
 //                });
 //            }
 //        }
-        var post_id = (post.postid != null && post.postid != undefined && post.postid.length != 0) ? post.postid : uuid.v4();
+        if (post.userid == [] || post.userid == "" || post.userid == null || post.userid == undefined || post.userid == "0" || post.userid == "1") {
+            console.error("[Model] Catastrophic Error: userid not valid");
+        } else {
+            console.log("[Model] Creating post for userid %s", post.userid);
+        }
+
         var _post = {
-            postid: post_id,
+            postid: uuid.v4(),
             userid: post.userid,
             title: post.title,
             money_requested: post.money_requested,

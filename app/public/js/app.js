@@ -151,7 +151,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
                     }]
                 };
                 console.log("Creating Element %s", JSON.stringify(post_obj));
-                console.log($rootScope.detailPost.postid);
+                console.log('/post/' + $rootScope.detailPost.postid);
                 $http.post('/post/' + $rootScope.detailPost.postid, post_obj).success(function(data) {
                     console.log("Created! %s", JSON.stringify(data));
                     callback(callback, b + 1)

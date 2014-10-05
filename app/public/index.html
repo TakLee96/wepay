@@ -109,8 +109,8 @@
         </div>
 
         <form name="postForm">
-            <input class="card-text-input" type="text" placeholder="What're ya tryin' to buy?" ng-model="newPostTitle"/>
-            <input class="card-text-input" type="number" placeholder="How much ya need? ($00.00)" ng-model="newPostMoney"/>
+            <input id="postTitleID" class="card-text-input" type="text" name="postTitle" placeholder="What're ya tryin' to buy?" ng-model="newPost.title"/>
+            <input id="postMoneyID" class="card-text-input" type="number" name="postMoney" placeholder="How much ya need? ($00.00)" ng-model="newPost.money"/>
         </form>>
 
         <button class="card-button button-green" ng-click="makeNewPost();">Save</button>

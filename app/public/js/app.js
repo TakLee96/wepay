@@ -14,8 +14,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.MeNotFriend = true;
     $rootScope.showDetail = false;
     $rootScope.postStart = false;
-    $rootScope.newPostTitle = "";
-    $rootScope.newPostMoney = 0;
+    $rootScope.newPost = {title: "", money: 0};
 
     $rootScope.getMyPosts = function() {
         $rootScope.MeNotFriend = true;
@@ -105,8 +104,12 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
 //            $rootScope.postStart = false;
 //            $rootScope.$apply();
 //        });
-        console.log("Title: %s", $rootScope.newPostTitle);
-        console.log("Money: %s", $rootScope.newPostMoney);
+        console.log("Title: %s", $rootScope.newPost.title);
+        console.log("Money: %s", $rootScope.newPost.money);
+        console.log("Title: %s", postForm.postTitle);
+        console.log("Money: %s", postForm.postMoney);
+        console.log("Title: %s", $('#postTitleID').val());
+        console.log("Money: %s", $('#postMoneyID').val());
     };
 
 }]);

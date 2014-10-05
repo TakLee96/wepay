@@ -6,6 +6,7 @@ var model = require('../models/model');
 // }
 var registerDevice = function (req, res) {
   var device = req.body;
+  console.log('[DeviceController] registerDevice: %s', JSON.stringify(device));
   model.registerDevice(device, function (device) {
     res.json(device);
   });

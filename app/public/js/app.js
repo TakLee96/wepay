@@ -53,7 +53,13 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         });
     };
     $rootScope.makeNewPost = function() {
-
+    $rootScope.calculateSum = function(arr) {
+        var total = 0;
+        for (var i = 0; i < arr.length; i++) {
+            total += arr[i].amount_paid;
+        }
+        return total;
+    }
     };
 }]);
 

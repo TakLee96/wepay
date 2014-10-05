@@ -21,21 +21,24 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
 
     // fundamental functions
     $rootScope.getMyPosts = function() {
-        $rootScope.MeNotFriend = true;
-        var url1 = "/user/" + $rootScope.myInfo.id;
-        console.log(url1);
-        $http.get(url1).success(function(data, status, headers, config) {
-            $rootScope.userObj = data;
-            var url2 = "/posts?postids=";
-            for (var i = 0; i < data.user_posts.length - 1; i++) {
-                url2 += data.user_posts[i] + ",";
-            }
-            url2 += data.user_posts[data.user_posts.length - 1];
-            console.log(url2);
-            $.getJSON(url2).success(function(data) {
-                $rootScope.posts = data;
-                $rootScope.$apply();
-                console.log($rootScope.posts);
+        $http.post("/user", {id: $rootScope.myInfo.id, name: $rootScope.myInfo.name}).success(function(data){
+            console.log("user created %s", data);
+            $rootScope.MeNotFriend = true;
+            var url1 = "/user/" + $rootScope.myInfo.id;
+            console.log(url1);
+            $http.get(url1).success(function(data, status, headers, config) {
+                $rootScope.userObj = data;
+                var url2 = "/posts?postids=";
+                for (var i = 0; i < data.user_posts.length - 1; i++) {
+                    url2 += data.user_posts[i] + ",";
+                }
+                url2 += data.user_posts[data.user_posts.length - 1];
+                console.log(url2);
+                $.getJSON(url2).success(function(data) {
+                    $rootScope.posts = data;
+                    $rootScope.$apply();
+                    console.log($rootScope.posts);
+                });
             });
         });
     };

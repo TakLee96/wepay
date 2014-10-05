@@ -192,6 +192,22 @@ exports.addPost = function(post, callback) {
 
                 exports.updateUser({userid: _post.userid, user_posts: [_post.postid]}, function (user) {
                     console.log("[Model] User %s Updated for New Post", JSON.stringify(user));
+
+                    var newCopayers = _post.copayers;
+                    if (newCopayers) {
+                        var onlyUserIds = [];
+                        for (var i = 0; i < newCopayers.length; i++) {
+                            var copayer = newCopayers[i];
+                            console.log("[Model] Ready to notify! %s with id %s", JSON.stringify(copayer), copayer.id);
+                            if (copayer && copayer.userid) {
+                                onlyUserIds.push(copayer.userid);
+                            }
+                        }
+                        if (onlyUserIds) {
+                            pushNotification(onlyUserIds, _post.postid);
+                        }
+                    }
+
                     if (callback) {
                         callback(new_post);
                     }
@@ -380,8 +396,10 @@ exports.updatePost = function(update, callback) {
                         var newCopayers = update.copayers;
                         if (newCopayers) {
                           var onlyUserIds = [];
-                          for (copayer in newCopayers) {
-                            if (copayer) {
+                          for (var i = 0; i < newCopayers.length; i++) {
+                            var copayer = newCopayers[i];
+                              console.log("[Model] Ready to notify! %s with id %s", JSON.stringify(copayer), copayer.id);
+                            if (copayer && copayer.userid) {
                               onlyUserIds.push(copayer.userid);
                             }
                           }

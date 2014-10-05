@@ -1,4 +1,4 @@
-var model = require('../models/MongoDBModel');
+var model = require('../models/model');
 
 // Add a post to the database
 // req.body : {
@@ -12,7 +12,7 @@ var model = require('../models/MongoDBModel');
 // return : post object as json
 var addPost = function(req, res) {
   var post = req.body;
-  MongoDBModel.addPost(post, function(new_post) {
+  model.addPost(post, function(new_post) {
     if (new_post) {
       res.json(new_post[0]);
     } else {
@@ -26,7 +26,7 @@ var addPost = function(req, res) {
 // return : post object as json
 var getPost = function(req, res) {
   var postid = req.params.postid;
-  MongoDBModel.getPost(postid, function(post) {
+  model.getPost(postid, function(post) {
     if (post) {
       res.json(post[0]);
     } else {
@@ -42,7 +42,7 @@ var getPost = function(req, res) {
 // }
 var updatePost = function(req, res) {
   var update = req.body;
-  MongoDBModel.updatePost(update.postid, function(post) {
+  model.updatePost(update.postid, function(post) {
     if (post) {
       res.json(post[0]);
     } else {
@@ -56,7 +56,7 @@ var updatePost = function(req, res) {
 // return : array of post objects as json
 var getPostsUserID = function(req, res) {
   var userid = req.params.userid;
-  MongoDBModel.getPostsUserID(userid, function(posts){
+  model.getPostsUserID(userid, function(posts){
     if (posts) {
       res.json(posts);
     } else {
@@ -69,7 +69,7 @@ var getPosts = function(req, res) {
   var postids = req.param('postids');
   postids = postids.split(',');
   console.log('[PostController] getPosts postids: %s', JSON.stringify(postids));
-  MongoDBModel.getPosts(postids, function(posts) {
+  model.getPosts(postids, function(posts) {
     if (posts) {
       res.json(posts);
     } else {

@@ -376,6 +376,11 @@ exports.updatePost = function(update, callback) {
     }
 };
 
+exports.registerDevice = function(device, callback) {
+    console.log(device);
+    callback(device);
+};
+
 //exports.clean = function(callback) {
 //    userModel.remove({}, function() {
 //        postModel.remove({}, function() {

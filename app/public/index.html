@@ -26,7 +26,7 @@
         </div>
       </div> <!-- login -->
 
-      <div class="posts card-container row slide-up" ng-show="logInFinish && !showDetail && !postStart">
+      <div class="posts card-container row" ng-show="logInFinish && !showDetail && !postStart">
         <dl class="tabs">
           <dd ng-class="{active: MeNotFriend}"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
           <dd ng-class="{active: !MeNotFriend}"><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
@@ -105,7 +105,7 @@
         <button class="button-back" ng-click="goBackToList();">&lt;</button>
 
         <div class="card">
-          <h3>Create New Post</h3>
+          <h3 class="post-create-title">Create New Post</h3>
         </div>
 
         <input class="card-text-input" type="text" placeholder="What're ya tryin' to buy?" ng-model="newPostTitle">

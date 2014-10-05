@@ -119,7 +119,12 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         $rootScope.$apply();
     };
     $rootScope.contributeMoney = function() {
-        alert("Sorry, the developer sucks.");
+        var recipient = 'phlip9';
+        var amount = '5.00';
+        var note = encodeURIComponent($rootScope.detailPost.title);
+        var url = 'https://venmo.com?txn=pay&recipients=' + recipient + '&amount=' + amount + '&note=' + note
+        var win = window.open(url, '_blank');
+        win.focus();
     };
     $rootScope.makeNewPost = function() {
         $rootScope.$apply();

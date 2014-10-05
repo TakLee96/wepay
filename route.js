@@ -1,5 +1,6 @@
 var UserController = require("./app/controllers/UserController");
 var PostController = require("./app/controllers/PostController");
+var VenmoController = require("./app/controllers/VenmoController");
 
 var router = function(app) {
 
@@ -16,10 +17,9 @@ var router = function(app) {
     // Post aggregate REST routes
     app.get('/posts', PostController.getPosts);
 
-    // Temporary Method
-    app.get('/clean', UserController.clean);
-    app.get('/find', UserController.find);
-    app.get('/test', UserController.test);
+    // Venmo WebHook
+    app.get('/venmo', VenmoController.venmoVerify);
+    app.post('/venmo', VenmoController.venmoWebHook);
 };
 
 module.exports = router;

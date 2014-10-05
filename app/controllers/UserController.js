@@ -74,8 +74,8 @@ var test = function(req, res){
 module.exports = {
   addUser: addUser,
   getUser: getUser,
-  updateUser: updateUser,
-  clean: clean,
-  find: find,
-  test: test
+  updateUser: updateUser
+//  clean: clean,
+//  find: find,
+//  test: test
 };

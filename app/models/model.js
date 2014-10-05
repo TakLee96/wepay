@@ -269,26 +269,26 @@ exports.updatePost = function(update, callback) {
     });
 };
 
-exports.clean = function(callback) {
-    userModel.remove({}, function() {
-        postModel.remove({}, function() {
-            console.log("[Model] All data deleted");
-            if (callBack) callBack();
-        })
-    });
-};
-
-exports.findAll = function(callback) {
-    userModel.find({}, function(err, data1) {
-        postModel.find({}, function(err, data2) {
-            console.log("[Model] All data are here: %s, %s", data1, data2);
-            if (callback) callback(data1, data2);
-        })
-    });
-};
+//exports.clean = function(callback) {
+//    userModel.remove({}, function() {
+//        postModel.remove({}, function() {
+//            console.log("[Model] All data deleted");
+//            if (callBack) callBack();
+//        })
+//    });
+//};
+//
+//exports.findAll = function(callback) {
+//    userModel.find({}, function(err, data1) {
+//        postModel.find({}, function(err, data2) {
+//            console.log("[Model] All data are here: %s, %s", data1, data2);
+//            if (callback) callback(data1, data2);
+//        })
+//    });
+//};
 
 // Testing
-exports.unit_testing = function() {
+/*exports.unit_testing = function() {
     var steve = {
         userid: "facebook123456",
         name: "Steve Jobs",
@@ -383,4 +383,4 @@ exports.unit_testing = function() {
             })
         });
     })
-};
+};*/

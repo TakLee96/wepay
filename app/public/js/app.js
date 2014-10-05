@@ -10,7 +10,9 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.logInFinish = false;
     $rootScope.userObj = {};
     $rootScope.posts = [];
+    $rootScope.detailPost = {};
     $rootScope.MeNotFriend = true;
+    $rootScope.showDetail = false;
     $rootScope.getMyPosts = function() {
         $rootScope.MeNotFriend = true;
         var url1 = "http://wepay.herokuapp.com/user/" + $rootScope.myInfo.id;
@@ -36,30 +38,31 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         console.log(url1);
         $http.get(url1).success(function(data, status, headers, config) {
             $rootScope.userObj = data;
-            $http.get(url1).success(function(data, status, headers, config) {
-                $rootScope.userObj = data;
-                var url2 = "http://wepay.herokuapp.com/posts?postids=";
-                for (var i = 0; i < data.copayer_posts.length - 1; i++) {
-                    url2 += data.copayer_posts[i] + ",";
-                }
-                url2 += data.copayer_posts[data.copayer_posts.length - 1];
-                console.log(url2);
-                $.getJSON(url2).success(function(data) {
-                    $rootScope.posts = data;
-                    $rootScope.$apply();
-                    console.log($rootScope.posts);
-                });
+            var url2 = "http://wepay.herokuapp.com/posts?postids=";
+            for (var i = 0; i < data.copayer_posts.length - 1; i++) {
+                url2 += data.copayer_posts[i] + ",";
+            }
+            url2 += data.copayer_posts[data.copayer_posts.length - 1];
+            console.log(url2);
+            $.getJSON(url2).success(function(data) {
+                $rootScope.posts = data;
+                $rootScope.$apply();
+                console.log($rootScope.posts);
             });
         });
     };
     $rootScope.makeNewPost = function() {
+
+    };
     $rootScope.calculateSum = function(arr) {
         var total = 0;
         for (var i = 0; i < arr.length; i++) {
             total += arr[i].amount_paid;
         }
         return total;
-    }
+    };
+    $rootScope.getDetail  = function(post) {
+
     };
 }]);
 

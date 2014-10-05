@@ -135,6 +135,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
             $rootScope.newPost.title = "";
             $rootScope.newPost.money = 0;
             $rootScope.postStart = false;
+            $rootScope.getMyPosts();
             $rootScope.$apply();
         });
     };

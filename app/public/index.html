@@ -108,9 +108,10 @@
           <h3 class="post-create-title">Create New Post</h3>
         </div>
 
-        <input class="card-text-input" type="text" placeholder="What're ya tryin' to buy?" ng-model="newPostTitle">
-
-        <input class="card-text-input" type="number" placeholder="How much ya need? ($00.00)" ng-model="newPostMoney">
+        <form name="postForm">
+            <input class="card-text-input" type="text" placeholder="What're ya tryin' to buy?" ng-model="newPostTitle"/>
+            <input class="card-text-input" type="number" placeholder="How much ya need? ($00.00)" ng-model="newPostMoney"/>
+        </form>>
 
         <button class="card-button button-green" ng-click="makeNewPost();">Save</button>
       </div>

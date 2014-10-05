@@ -279,8 +279,8 @@ exports.clean = function(callback) {
 };
 
 exports.findAll = function(callback) {
-    userModel.find({}, function(data1) {
-        postModel.find({}, function(data2) {
+    userModel.find({}, function(err, data1) {
+        postModel.find({}, function(err, data2) {
             console.log("[Model] All data are here: %s, %s", data1, data2);
             if (callback) callback(data1, data2);
         })

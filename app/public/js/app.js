@@ -9,7 +9,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.myInfo = {};
     $rootScope.logInFinish = false;
     $rootScope.userObj = {};
-    $rootScope.posts = ["a", "b", "c"];
+    $rootScope.posts = [];
     $rootScope.MeNotFriend = true;
     $rootScope.getMyPosts = function() {
         $rootScope.MeNotFriend = true;

@@ -256,3 +256,16 @@ button {
 .post-create-title {
   text-align: center;
 }
+
+.inline-header {
+  display: inline-block;
+}
+
+.inline-checkbox {
+  display: inline-block;
+  float: right;
+  margin-top: 0.5rem !important;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+}

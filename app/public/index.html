@@ -102,7 +102,7 @@
       </div> <!-- detail -->
 
       <div class="post-create card-container row" ng-show="postStart">
-        <button class="button-back">&lt;</button>
+        <button class="button-back" ng-click="goBackToList();">&lt;</button>
 
         <div class="card">
           <h3>Create New Post</h3>
@@ -116,6 +116,8 @@
       </div>
 
     </div> <!-- wrapper -->
+
+
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>

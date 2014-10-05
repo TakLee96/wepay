@@ -79,7 +79,8 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         $rootScope.$apply();
     };
     $rootScope.goBackToList = function() {
-        $rootScope.showDetail = false;
+        if ($rootScope.showDetail) $rootScope.showDetail = false;
+        if ($rootScope.postStart) $rootScope.postStart = false;
         $rootScope.$apply();
     };
     $rootScope.inviteFriends = function() {

@@ -101,6 +101,8 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         for (friend in $rootScope.friends) {
             $rootScope.notifyFriends[friend.id] = false;
         }
+        console.log(JSON.stringify($rootScope.friends));
+        console.log(JSON.stringify($rootScope.notifyFriends));
         $rootScope.$apply();
     };
     $rootScope.contributeMoney = function() {

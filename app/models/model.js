@@ -143,22 +143,22 @@ exports.addPost = function(post, callback) {
     if (!connected) {
         connectToMongoDB(exports.addPost, post, callback);
     } else {
-        var copayers = [];
-        if (post.copayers != null && post.copayers != undefined && post.copayers.length != 0) {
-            for (userid in post.copayers) {
-                copayers.push({
-                    userid: userid,
-                    amount_paid: 0
-                });
-            }
-        }
+//        var copayers = [];
+//        if (post.copayers != null && post.copayers != undefined && post.copayers.length != 0) {
+//            for (userid in post.copayers) {
+//                copayers.push({
+//                    userid: userid,
+//                    amount_paid: 0
+//                });
+//            }
+//        }
         var post_id = (post.postid != null && post.postid != undefined && post.postid.length != 0) ? post.postid : uuid.v4();
         var _post = {
             postid: post_id,
             userid: post.userid,
             title: post.title,
             money_requested: post.money_requested,
-            copayers: copayers
+            copayers: post.copayers
         };
 
         console.log("[Model] _post really to be saved: %s", JSON.stringify(_post));

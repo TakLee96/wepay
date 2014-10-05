@@ -14,8 +14,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.MeNotFriend = true;
     $rootScope.showDetail = false;
     $rootScope.postStart = false;
-    $rootScope.newPostTitle = "";
-    $rootScope.newPostMoney = 0;
+    $rootScope.newPost = {title: "", money: 0};
 
     $rootScope.getMyPosts = function() {
         $rootScope.MeNotFriend = true;
@@ -90,20 +89,27 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         // TODO: Implement contrubuteMoney
     };
     $rootScope.makeNewPost = function() {
-        post_obj = {
-            userid: $rootScope.myInfo.id,
-            name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last),
-            title: $rootScope.newPostTitle,
-            money_requested: $rootScope.newPostMoney
-        };
-        console.log("Creating Element %s", post_obj);
-        $http.post('/post', post_obj).success(function(data) {
-            console.log("Created! %s", data);
-            $rootScope.newPostTitle = "";
-            $rootScope.newPostMoney = 0;
-            $rootScope.postStart = false;
-            $rootScope.$apply();
-        });
+        $rootScope.$apply();
+//        var post_obj = {
+//            userid: $rootScope.myInfo.id,
+//            name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name),
+//            title: $rootScope.newPostTitle,
+//            money_requested: $rootScope.newPostMoney
+//        };
+//        console.log("Creating Element %s", JSON.stringify(post_obj));
+//        $http.post('/post', post_obj).success(function(data) {
+//            console.log("Created! %s", data);
+//            $rootScope.newPostTitle = "";
+//            $rootScope.newPostMoney = 0;
+//            $rootScope.postStart = false;
+//            $rootScope.$apply();
+//        });
+        console.log("Title: %s", $rootScope.newPost.title);
+        console.log("Money: %s", $rootScope.newPost.money);
+        console.log("Title: %s", postForm.postTitle);
+        console.log("Money: %s", postForm.postMoney);
+        console.log("Title: %s", $('#postTitleID').val());
+        console.log("Money: %s", $('#postMoneyID').val());
     };
 
 }]);

@@ -237,7 +237,7 @@ wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
         FB.api('/me/friends', function(response) {
             // TODO: the user has successfully logged into FB and wepay
             console.log(response.data);
-            $rootScope.friends = JSON.stringify(response.data);
+            $rootScope.friends = response.data;
             $rootScope.logInFinish = true;
             $rootScope.$apply();
             $rootScope.getMyPosts();

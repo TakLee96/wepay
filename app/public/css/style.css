@@ -66,6 +66,10 @@ body {
   background-size: cover;
 }
 
+h3 {
+  font-family: "Montserrat", sans-serif;
+}
+
 .wrapper {
   width: 100%;
   height: 100%;
@@ -186,6 +190,9 @@ body {
   font-size: 2rem;
   color: #333;
   background-color: #fff;
+
+  position: absolute;
+  transform: translateX(-4rem);
 }
 
 .button-back:hover,
@@ -199,4 +206,25 @@ body {
   background-color: #fff;
   margin-bottom: 1rem;
   padding: 1rem;
+}
+
+.post-buttons {
+  width: 100%;
+  display: table;
+}
+
+.post-buttons > button {
+  font-family: "Montserrat", sans-serif;
+  -webkit-appearance: button;
+  width: 48%;
+  display: table-cell;
+}
+
+.button-contribute {
+  background-color: #06ba8f;
+  float: right;
+}
+
+.button-contribute:hover {
+  background-color: #048969;
 }

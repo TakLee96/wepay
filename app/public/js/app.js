@@ -144,6 +144,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
                     name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name),
                     title: $rootScope.detailPost.title,
                     money_requested: $rootScope.detailPost.money,
+                    postid: $rootScope.detailPost.postid,
                     copayers: [{
                         userid: friend.id,
                         name: friend.first_name + " " + friend.last_name,

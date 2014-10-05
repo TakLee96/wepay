@@ -13,14 +13,17 @@
   }
 }
 
-.login {
-  width: 100%;
-  height: 100%;
+body {
   background-image: url("/img/background_ambient.png");
   background-size: cover;
 }
 
-.login-panel {
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.login {
   position: relative;
   top: 20%;
   text-align: center;
@@ -32,11 +35,19 @@
   animation-timing-function: ease-out;
 }
 
-.login-button {
+.venmo-input {
+  display: inline-block !important;
+  width: 20rem !important;
+  height: 5rem !important;
+  font-size: 1.5rem !important;
+  text-align: center !important;
+  font-family: 'Montserrat', sans-serif !important;
   animation-delay: 0.1s;
+}
 
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+.login-button {
+  width: 20rem;
+  height: 5rem;
   font-size: 1.5rem;
   font-family: 'Montserrat', sans-serif;
 }
@@ -46,4 +57,5 @@
   font-weight: 700;
   font-family: 'Montserrat', sans-serif;
   color: #fff;
+  animation-delay: 0.2s;
 }

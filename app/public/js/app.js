@@ -98,8 +98,10 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         $rootScope.showDetail = false;
         $rootScope.showInvitation = true;
         $rootScope.notifyFriends = {};
-        for (friend in $rootScope.friends) {
+        for (var i = 0; i < $rootScope.friends.length; i++) {
+            var friend = $rootScope.friends[i];
             $rootScope.notifyFriends[friend.id] = false;
+            console.log(JSON.stringify(friend));
         }
         console.log(JSON.stringify($rootScope.friends));
         console.log(JSON.stringify($rootScope.notifyFriends));

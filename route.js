@@ -1,5 +1,6 @@
 var UserController = require("./app/controllers/UserController");
 var PostController = require("./app/controllers/PostController");
+var VenmoController = require("./app/controllers/VenmoController");
 
 var router = function(app) {
 
@@ -18,6 +19,10 @@ var router = function(app) {
 
     // Temporary Method
     app.get('/clean/db', UserController.clean);
+
+    // Venmo WebHook
+    app.get('/venmo', VenmoController.venmoVerify);
+    app.post('/venmo', VenmoController.venmoWebHook);
 };
 
 module.exports = router;

@@ -91,20 +91,22 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     };
     $rootScope.makeNewPost = function() {
         $rootScope.$apply();
-        var post_obj = {
-            userid: $rootScope.myInfo.id,
-            name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name),
-            title: $rootScope.newPostTitle,
-            money_requested: $rootScope.newPostMoney
-        };
-        console.log("Creating Element %s", JSON.stringify(post_obj));
-        $http.post('/post', post_obj).success(function(data) {
-            console.log("Created! %s", data);
-            $rootScope.newPostTitle = "";
-            $rootScope.newPostMoney = 0;
-            $rootScope.postStart = false;
-            $rootScope.$apply();
-        });
+//        var post_obj = {
+//            userid: $rootScope.myInfo.id,
+//            name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name),
+//            title: $rootScope.newPostTitle,
+//            money_requested: $rootScope.newPostMoney
+//        };
+//        console.log("Creating Element %s", JSON.stringify(post_obj));
+//        $http.post('/post', post_obj).success(function(data) {
+//            console.log("Created! %s", data);
+//            $rootScope.newPostTitle = "";
+//            $rootScope.newPostMoney = 0;
+//            $rootScope.postStart = false;
+//            $rootScope.$apply();
+//        });
+        console.log("Title: %s", $rootScope.newPostTitle);
+        console.log("Money: %s", $rootScope.newPostMoney);
     };
 
 }]);

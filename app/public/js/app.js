@@ -128,7 +128,8 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         });
     };
     $rootScope.makeInvitation = function() {
-        for (friend in $rootScope.friends) {
+        for (var i = 0; i < $rootScope.friends.length; i++) {
+            var friend = $rootScope.friends[i];
             if ($rootScope.notifyFriends[friend.id]) {
                 var post_obj = {
                     userid: $rootScope.myInfo.id,

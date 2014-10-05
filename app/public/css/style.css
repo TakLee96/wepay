@@ -248,6 +248,11 @@ button {
   background-color: #06ba8f;
 }
 
-.button-green:hover {
+.button-green:hover,
+.button-green:focus {
   background-color: #048969;
+}
+
+.post-create-title {
+  text-align: center;
 }

@@ -298,6 +298,7 @@ exports.registerDevice = function (device, callback) {
 };
 
 var getDevices = function(userids, callback) {
+  console.log('Fetching Devices by userids: %s...', JSON.stringify(userids));
   if (!connected) {
     connectToMongoDB(exports.getPosts, postids, callback);
   } else {
@@ -315,6 +316,7 @@ var getDevices = function(userids, callback) {
 };
 
 var pushNotification = function(userids, postid) {
+  console.log('[PushNotification] Doing push notification to userids: %s', JSON.stringify(userids));
   getDevices(userids, function (devices) {
     for (device in devices) {
       var notif = new apn.Notification();

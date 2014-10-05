@@ -89,21 +89,20 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         // TODO: Implement contrubuteMoney
     };
     $rootScope.makeNewPost = function() {
-        $rootScope.$apply(function() {
-            var post_obj = {
+        $rootScope.$apply();
+        var post_obj = {
             userid: $rootScope.myInfo.id,
             name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name),
             title: $rootScope.newPost.title,
             money_requested: $rootScope.newPost.money
-            };
-            console.log("Creating Element %s", JSON.stringify(post_obj));
-            $http.post('/post', post_obj).success(function(data) {
-                console.log("Created! %s", data);
-                $rootScope.newPostTitle = "";
-                $rootScope.newPostMoney = 0;
-                $rootScope.postStart = false;
-                $rootScope.$apply();
-            });
+        };
+        console.log("Creating Element %s", JSON.stringify(post_obj));
+        $http.post('/post', post_obj).success(function(data) {
+            console.log("Created! %s", JSON.stringify(data));
+            $rootScope.newPost.title = "";
+            $rootScope.newPost.money = 0;
+            $rootScope.postStart = false;
+            $rootScope.$apply();
         });
     };
 

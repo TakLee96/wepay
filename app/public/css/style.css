@@ -193,6 +193,7 @@ h3 {
 
   position: absolute;
   transform: translateX(-4rem);
+  -webkit-transform: translateX(-4rem);
 }
 
 .button-back:hover,

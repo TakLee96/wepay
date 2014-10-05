@@ -28,7 +28,7 @@
 
       <div class="posts card-container row" ng-show="logInFinish && !showDetail && !postStart && !showInvitation">
         <dl class="tabs">
-          <dd ng-class="{active: MeNotFriend}"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
+          <dd ng-class="{active: MeNotFriend}"><a ng-click="getMyPosts();">My Posts</a></dd>
           <dd ng-class="{active: !MeNotFriend}"><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
         </dl>
 

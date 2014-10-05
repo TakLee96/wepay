@@ -41,9 +41,9 @@ var getPost = function(req, res) {
 //   new post object
 // }
 var updatePost = function(req, res) {
-  var post = req.body;
-  console.log(JSON.stringify(post));
-  model.updatePost(post, function(post) {
+  var update = req.body;
+  console.log(JSON.stringify(update));
+  model.updatePost(update, function(post) {
     console.log(post);
     if (post) {
       res.json(post[0]);

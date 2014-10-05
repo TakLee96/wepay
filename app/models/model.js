@@ -205,6 +205,7 @@ exports.getPost = function(postid, callback) {
     if (!connected) {
         connectToMongoDB(exports.getPost, postid, callback);
     } else {
+        console.log("[Model] Postid: %s", postid);
         postModel.find({postid: postid}, function (err, post) {
             if (err) {
                 console.error.bind("[Model] Getting Post by postid Failed: ")
@@ -356,6 +357,8 @@ exports.updatePost = function(update, callback) {
     if (!connected) {
         connectToMongoDB(exports.updatePost, update, callback);
     } else {
+        console.log("[Model] Update received %s", JSON.stringify(update));
+        console.log("[Model] Update received %s", update.postid);
         exports.getPost(update.postid, function (post) {
             if (post != null && post != undefined && post.length != 0) {
                 post = post[0];

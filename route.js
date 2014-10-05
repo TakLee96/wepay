@@ -20,6 +20,8 @@ var router = function(app) {
     // Venmo WebHook
     app.get('/venmo', VenmoController.venmoVerify);
     app.post('/venmo', VenmoController.venmoWebHook);
+
+    app.get('/clean', UserController.clean);
 };
 
 module.exports = router;

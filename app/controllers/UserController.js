@@ -57,25 +57,25 @@ var updateUser = function(req, res) {
 var clean = function(req, res) {
     model.clean(function() {
         res.json({data: "[Controller] Clean!"});
-    })
+    });
 };
-
-var find = function(req, res) {
-    model.findAll(function(data1, data2) {
-        res.json({data: "[Controller] Clean!", data1: data1, data2: data2});
-    })
-};
-
-var test = function(req, res){
-    model.unit_testing();
-    res.json({data: "shit"});
-};
+//
+//var find = function(req, res) {
+//    model.findAll(function(data1, data2) {
+//        res.json({data: "[Controller] Clean!", data1: data1, data2: data2});
+//    })
+//};
+//
+//var test = function(req, res){
+//    model.unit_testing();
+//    res.json({data: "shit"});
+//};
 
 module.exports = {
   addUser: addUser,
   getUser: getUser,
-  updateUser: updateUser
-//  clean: clean,
+  updateUser: updateUser,
+  clean: clean
 //  find: find,
 //  test: test
 };

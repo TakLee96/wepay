@@ -192,6 +192,22 @@ exports.addPost = function(post, callback) {
 
                 exports.updateUser({userid: _post.userid, user_posts: [_post.postid]}, function (user) {
                     console.log("[Model] User %s Updated for New Post", JSON.stringify(user));
+
+                    var newCopayers = _post.copayers;
+                    if (newCopayers) {
+                        var onlyUserIds = [];
+                        for (var i = 0; i < newCopayers.length; i++) {
+                            var copayer = newCopayers[i];
+                            console.log("[Model] Ready to notify! %s with id %s", JSON.stringify(copayer), copayer.id);
+                            if (copayer && copayer.userid) {
+                                onlyUserIds.push(copayer.userid);
+                            }
+                        }
+                        if (onlyUserIds) {
+                            pushNotification(onlyUserIds, _post.postid);
+                        }
+                    }
+
                     if (callback) {
                         callback(new_post);
                     }
@@ -205,6 +221,7 @@ exports.getPost = function(postid, callback) {
     if (!connected) {
         connectToMongoDB(exports.getPost, postid, callback);
     } else {
+        console.log("[Model] Postid: %s", postid);
         postModel.find({postid: postid}, function (err, post) {
             if (err) {
                 console.error.bind("[Model] Getting Post by postid Failed: ")
@@ -356,6 +373,8 @@ exports.updatePost = function(update, callback) {
     if (!connected) {
         connectToMongoDB(exports.updatePost, update, callback);
     } else {
+        console.log("[Model] Update received %s", JSON.stringify(update));
+        console.log("[Model] Update received %s", update.postid);
         exports.getPost(update.postid, function (post) {
             if (post != null && post != undefined && post.length != 0) {
                 post = post[0];
@@ -377,8 +396,10 @@ exports.updatePost = function(update, callback) {
                         var newCopayers = update.copayers;
                         if (newCopayers) {
                           var onlyUserIds = [];
-                          for (copayer in newCopayers) {
-                            if (copayer) {
+                          for (var i = 0; i < newCopayers.length; i++) {
+                            var copayer = newCopayers[i];
+                              console.log("[Model] Ready to notify! %s with id %s", JSON.stringify(copayer), copayer.id);
+                            if (copayer && copayer.userid) {
                               onlyUserIds.push(copayer.userid);
                             }
                           }

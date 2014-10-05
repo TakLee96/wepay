@@ -21,6 +21,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
 
     // fundamental functions
     $rootScope.getMyPosts = function() {
+        console.log("getting my posts");
         $rootScope.MeNotFriend = true;
         var url1 = "/user/" + $rootScope.myInfo.id;
         console.log(url1);
@@ -37,6 +38,16 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
                 $rootScope.$apply();
                 console.log($rootScope.posts);
             });
+        });
+    };
+    $rootScope.registerUser = function(callback) {
+        // app.post('/user', UserController.addUser);
+        console.log("registering new user");
+        $http.post('/user', {
+            userid: "", name: ""
+        }).success(function(data, status, headers, config) {
+            console.log("%s %s %s %s", data, status, headers, config)
+            callback();
         });
     };
     $rootScope.startPost = function() {
@@ -98,9 +109,13 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         $rootScope.showDetail = false;
         $rootScope.showInvitation = true;
         $rootScope.notifyFriends = {};
-        for (friend in $rootScope.friends) {
+        for (var i = 0; i < $rootScope.friends.length; i++) {
+            var friend = $rootScope.friends[i];
             $rootScope.notifyFriends[friend.id] = false;
+            console.log(JSON.stringify(friend));
         }
+        console.log(JSON.stringify($rootScope.friends));
+        console.log(JSON.stringify($rootScope.notifyFriends));
         $rootScope.$apply();
     };
     $rootScope.contributeMoney = function() {
@@ -129,24 +144,33 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         });
     };
     $rootScope.makeInvitation = function() {
-        for (friend in $rootScope.friends) {
+        console.log(JSON.stringify($rootScope.notifyFriends));
+        $rootScope.recursion($rootScope.recursion, 0);
+    };
+    $rootScope.recursion = function(callback, b) {
+        if (b == $rootScope.friends.length) {
+            $rootScope.showInvitation = false;
+            $rootScope.$apply();
+        } else {
+            var friend = $rootScope.friends[b];
             if ($rootScope.notifyFriends[friend.id]) {
                 var post_obj = {
                     userid: $rootScope.myInfo.id,
                     name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name),
                     title: $rootScope.detailPost.title,
                     money_requested: $rootScope.detailPost.money,
+                    postid: $rootScope.detailPost.postid,
                     copayers: [{
                         userid: friend.id,
-                        name: friend.first_name + " " + friend.last_name,
+                        name: friend.name,
                         amount_paid: 0
                     }]
                 };
                 console.log("Creating Element %s", JSON.stringify(post_obj));
+                console.log('/post/' + $rootScope.detailPost.postid);
                 $http.post('/post/' + $rootScope.detailPost.postid, post_obj).success(function(data) {
                     console.log("Created! %s", JSON.stringify(data));
-                    $rootScope.showInvitation = false;
-                    $rootScope.$apply();
+                    callback(callback, b + 1)
                 });
             }
         }
@@ -238,10 +262,10 @@ wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {
         FB.api('/me/friends', function(response) {
             // TODO: the user has successfully logged into FB and wepay
             console.log(response.data);
-            $rootScope.friends = JSON.stringify(response.data);
+            $rootScope.friends = response.data;
             $rootScope.logInFinish = true;
+            $rootScope.registerUser($rootScope.getMyPosts);
             $rootScope.$apply();
-            $rootScope.getMyPosts();
         });
     }
 

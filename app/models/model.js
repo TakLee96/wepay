@@ -80,8 +80,8 @@ exports.addUser = function(user, callback) {
     };
 
     userModel.find({userid: _user.userid}, function(err, user) {
-        if (user) {
-            console.log("[Model] User already exists");
+        if (user == [] || user == null || user == undefined) {
+            console.log("[Model] User already exists: %s", user);
             if (callback) {
                 callback(user)
             }

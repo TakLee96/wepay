@@ -13,6 +13,7 @@
     <script src="js/app.js"></script>
 
     <div class="wrapper" ng-controller="wepayCtrl">
+
       <div class="login row" ng-hide="logInFinish">
         <div class="small-6 small-centered columns">
           <h1 class="splash-text slide-in">WePay</h1>
@@ -27,12 +28,16 @@
             <button class="login-button slide-in" ng-click="logIn();">Login with Facebook</button>
           </div>
         </div>
-      </div>
+      </div> <!-- login -->
+
       <div class="posts row slide-up" ng-show="logInFinish">
         <dl class="tabs">
-          <dd class=""><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
+          <dd class="active"><a href="#my-posts" ng-click="getMyPosts();">My Posts</a></dd>
           <dd><a id="friends-posts" ng-click="getFriendsPosts();">Friends' Posts</a></dd>
         </dl>
+
+        <button class="button-create-post">Create New Post</button>
+
         <div class="tabs-content">
           <div class="content active" id="my-posts">
             <ul class="post-list">
@@ -78,8 +83,9 @@
             <div ng-repeat="post in posts">{{post.title}}</div>
           </div>
         </div>
-      </div>
-    </div>
+      </div> <!-- posts -->
+
+    </div> <!-- wrapper -->
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>

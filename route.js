@@ -17,12 +17,11 @@ var router = function(app) {
     // Post aggregate REST routes
     app.get('/posts', PostController.getPosts);
 
-    // Temporary Method
-    app.get('/clean/db', UserController.clean);
-
     // Venmo WebHook
     app.get('/venmo', VenmoController.venmoVerify);
     app.post('/venmo', VenmoController.venmoWebHook);
+
+    app.get('/clean', UserController.clean);
 };
 
 module.exports = router;

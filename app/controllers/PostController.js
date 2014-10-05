@@ -66,7 +66,7 @@ var getPostsUserID = function(req, res) {
 };
 
 var getPosts = function(req, res) {
-  var postids = req.params.postids;
+  var postids = req.param('postids');
   postids = postids.split(',');
   console.log('[PostController] getPosts postids: %s', JSON.stringify(postids));
   model.getPosts(postids, function(posts) {

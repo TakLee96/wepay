@@ -5,7 +5,7 @@
  * venmo_challenge, and expecting us to return the parameter as plain text.
  */
 var venmoVerify = function(req, res) {
-  var venmo_challenge = req.params.venmo_challenge;
+  var venmo_challenge = req.param('venmo_challenge');
   res.set('Content-Type', 'text/plain');
   res.send(venmo_challenge);
 };

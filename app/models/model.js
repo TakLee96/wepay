@@ -16,7 +16,7 @@ var postSchema = mongoose.Schema({
     userid: String,
     title: String,
     money_requested: Number,
-    copayers: [{userid: String, amount_paid: Number}]
+    copayers: [String]
 });
 
 // Create Model
@@ -122,6 +122,7 @@ exports.getUser = function(userid, callback) {
     if (!connected) {
         connectToMongoDB(exports.getUser, userid, callback);
     } else {
+        console.log("[Model] Finding User with ID %s", userid);
         userModel.find({userid: userid}, function (err, user) {
             if (err) {
                 console.error.bind("[Model] Getting User Failed: ")
@@ -129,10 +130,11 @@ exports.getUser = function(userid, callback) {
             if (user != null && user != undefined && user.length != 0) {
                 console.log("[Model] User by ID %s Found: %s", userid, JSON.stringify(user));
             } else {
-                console.error("[Model] User Not Found!");
+                console.error("[Model] User Lost! %s", JSON.stringify(user));
             }
             if (callback) {
                 // null Case handled in controller
+                console.log("[Model] Calling back user %s", JSON.stringify(user));
                 callback(user);
             }
         });
@@ -152,16 +154,21 @@ exports.addPost = function(post, callback) {
 //                });
 //            }
 //        }
-        var post_id = (post.postid != null && post.postid != undefined && post.postid.length != 0) ? post.postid : uuid.v4();
+        if (post.userid == [] || post.userid == "" || post.userid == null || post.userid == undefined || post.userid == "0" || post.userid == "1") {
+            console.error("[Model] Catastrophic Error: userid not valid");
+        } else {
+            console.log("[Model] Creating post for userid %s", post.userid);
+        }
+
         var _post = {
-            postid: post_id,
+            postid: uuid.v4(),
             userid: post.userid,
             title: post.title,
             money_requested: post.money_requested,
             copayers: post.copayers
         };
 
-        console.log("[Model] _post really to be saved: %s", JSON.stringify(_post));
+        console.log("[Model] _post ready to be saved: %s", JSON.stringify(_post));
         postModel.create(_post, function (err, new_post) {
             if (err) {
                 console.error.bind("[Model] Creating Post Failed: ")
@@ -243,6 +250,7 @@ exports.updateUser = function(update, callback) {
         connectToMongoDB(exports.updateUser, update, callback);
     } else {
         // only update user_posts & copayer_posts
+        console.log("[Model] Finding User: %s", update.userid);
         exports.getUser(update.userid, function (user) {
             if (user != null && user != undefined && user.length != 0) {
                 user = user[0];
@@ -266,7 +274,7 @@ exports.updateUser = function(update, callback) {
                     }
                 });
             } else {
-                console.error("[Model] User does not exist");
+                console.error("[Model] User does not exist %s %s", user, JSON.stringify(user));
             }
         })
     }

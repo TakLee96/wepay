@@ -4,7 +4,7 @@
 
 var wepayApp = angular.module('wepayApp', []);
 
-wepayApp.controller('wepayCtrl', ['$scope', '$interval', 'fbData', function($scope, $interval, fbData) {
+wepayApp.controller('wepayCtrl', ['$scope', '$interval', function($scope, $interval, fbData) {
     $scope.friends = "";
 
     $interval(function() {

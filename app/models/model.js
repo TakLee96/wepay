@@ -269,11 +269,20 @@ exports.updatePost = function(update, callback) {
     });
 };
 
-exports.clean = function(callBack) {
+exports.clean = function(callback) {
     userModel.remove({}, function() {
         postModel.remove({}, function() {
             console.log("[Model] All data deleted");
             if (callBack) callBack();
+        })
+    });
+};
+
+exports.findAll = function(callback) {
+    userModel.find({}, function(data1) {
+        postModel.find({}, function(data2) {
+            console.log("[Model] All data are here: %s, %s", data1, data2);
+            if (callback) callback(data1, data2);
         })
     });
 };

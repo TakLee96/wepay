@@ -16,7 +16,7 @@ var postSchema = mongoose.Schema({
     userid: String,
     title: String,
     money_requested: Number,
-    copayers: [{userid: String, amount_paid: Number}]
+    copayers: [String]
 });
 
 // Create Model
@@ -166,7 +166,7 @@ exports.addPost = function(post, callback) {
             copayers: post.copayers
         };
 
-        console.log("[Model] _post really to be saved: %s", JSON.stringify(_post));
+        console.log("[Model] _post ready to be saved: %s", JSON.stringify(_post));
         postModel.create(_post, function (err, new_post) {
             if (err) {
                 console.error.bind("[Model] Creating Post Failed: ")

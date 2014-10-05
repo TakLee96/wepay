@@ -9,18 +9,32 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
     $rootScope.myInfo = {};
     $rootScope.logInFinish = false;
     $rootScope.userObj = {};
+    $rootScope.posts = ["a", "b", "c"];
     $rootScope.getMyPosts = function() {
         $rootScope.MeNotFriend = true;
-//        $http.get("http://wepay.herokuapp.com/user/" + $rootScope.myInfo.id).success(function(data) {
-//            $rootScope.userObj = data;
-//            $http.get("http://wepay.herokuapp.com/posts")
-//        });
+        var url1 = "http://wepay.herokuapp.com/user/" + $rootScope.myInfo.id;
+        console.log(url1);
+        $http.get(url1).success(function(data, status, headers, config) {
+            $rootScope.userObj = data;
+            console.log("%s %s %s %s", data, status, headers, config);
+            console.log("%s %s", JSON.stringify(data), data.user_posts);
+            var url2 = "http://wepay.herokuapp.com/posts?postids=";
+            for (var i = 0; i < data.user_posts.length - 1; i++) {
+                url2 += data.user_posts[i] + ",";
+            }
+            url2 += data.user_posts[data.user_posts.length - 1];
+            console.log(url2);
+            $.getJSON(url2).success(function(data) {
+                $rootScope.posts = data;
+                console.log($rootScope.posts);
+            });
+        });
     };
     $rootScope.getFriendsPosts = function() {
         $rootScope.MeNotFriend = false;
     };
     $rootScope.MeNotFriend = true;
-    $rootScope.posts = [];
+
 }]);
 
 wepayApp.controller('FBCtrl', ['$rootScope', function($rootScope) {

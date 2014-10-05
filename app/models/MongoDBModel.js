@@ -7,8 +7,8 @@ var userSchema = mongoose.Schema({
     userid: String,
     name: String,
     venmo_username: String,
-    user_posts: [String],
-    copayer_posts: [String]
+    user_posts: [String], // Array of postids
+    copayer_posts: [String] // Array of postids
 });
 
 var postSchema = mongoose.Schema({
@@ -16,7 +16,7 @@ var postSchema = mongoose.Schema({
     userid: String,
     title: String,
     money_requested: Number,
-    copayers: [String]
+    copayers: [{userid: String, name: String, amount_paid: Number}] // Array of userid
 });
 
 // Create Model
@@ -27,7 +27,8 @@ var postModel = mongoose.model("posts", postSchema);
 var connected = false;
 var connectToMongoDB = function(callback, obj, next) {
     if (!connected) {
-        var path = process.env.MONGOHQ_URL + "/wepay";
+        //var path = process.env.MONGOHQ_URL + "/wepay";
+        var path = "mongodb://localhost/wepay";
         console.log("Try Connecting %s", path);
         //var path = "mongodb://localhost/wepay";
         mongoose.connect(path);
@@ -145,15 +146,16 @@ exports.addPost = function(post, callback) {
     if (!connected) {
         connectToMongoDB(exports.addPost, post, callback);
     } else {
-//        var copayers = [];
-//        if (post.copayers != null && post.copayers != undefined && post.copayers.length != 0) {
-//            for (userid in post.copayers) {
-//                copayers.push({
-//                    userid: userid,
-//                    amount_paid: 0
-//                });
-//            }
-//        }
+        var copayers = [];
+        if (post.copayers != null && post.copayers != undefined && post.copayers.length != 0) {
+            for (copayer in post.copayers) {
+                copayers.push({
+                    userid: copayer.userid,
+                    name: copayer.name,
+                    amount_paid: copayer.amount_paid
+                });
+            }
+        }
         if (post.userid == [] || post.userid == "" || post.userid == null || post.userid == undefined || post.userid == "0" || post.userid == "1") {
             console.error("[Model] Catastrophic Error: userid not valid");
         } else {
@@ -165,7 +167,7 @@ exports.addPost = function(post, callback) {
             userid: post.userid,
             title: post.title,
             money_requested: post.money_requested,
-            copayers: post.copayers
+            copayers: copayers
         };
 
         console.log("[Model] _post ready to be saved: %s", JSON.stringify(_post));
@@ -338,104 +340,14 @@ exports.updatePost = function(update, callback) {
 //    });
 //};
 
-// Testing
-//exports.unit_testing = function() {
-//    var steve = {
-//        userid: "facebook123456",
-//        name: "Steve Jobs",
-//        user_posts: [],
-//        copayer_posts: []
-//    };
-//    var first_post = {
-//        postid: "steve789",
-//        userid: "facebook123456",
-//        title: "hey! first post!",
-//        money_requested: 1000,
-//        copayers: []
-//    };
-//    var second_post = {
-//        postid: "steve102",
-//        userid: "facebook123456",
-//        title: "hey! second post!",
-//        money_requested: 2000,
-//        copayers: []
-//    };
-//    exports.addUser(steve, function(user) {
-//        var errors = 0;
-//        if (steve == user) {
-//            console.log("[Test] 1 addUser Callback works");
-//        } else {
-//            console.log("[Test] 1 addUser Callback error: %s != %s", JSON.stringify(steve), user);
-//            errors++;
+//Testing
+//exports.addUser({id: "id", name: "name"}, function(data1) {
+//    exports.getUser = function(data2){
+//        console.log("Test1 %s", data1 == data2);
+//        exports.addPost({userid: "id", name: "name", title: "title", money_requested: 100,
+//            function(data) {
+//
+//
 //        }
-//
-//        exports.getUser(steve.userid, function (user) {
-//            if (JSON.stringify(steve) == user[0]) {
-//                console.log("[Test] 2 getUser returns same object");
-//            } else {
-//                console.log("[Test] 2 getUser Callback error: %s != %s", JSON.stringify(steve), user[0]);
-//                errors++;
-//            }
-//
-//            exports.addPost(first_post, function (post) {
-//                if (JSON.stringify(first_post) == post) {
-//                    console.log("[Test] 3 addPost returns same object");
-//                } else {
-//                    console.log("[Test] 3 addPost Callback error: %s != %s", JSON.stringify(first_post), post);
-//                    errors++;
-//                }
-//
-//                exports.getPost(first_post.postid, function (post) {
-//                    if (JSON.stringify(first_post) == post[0]) {
-//                        console.log("[Test] 4 getPost returns same object");
-//                    } else {
-//                        console.log("[Test] 4 getPost Callback error: %s != %s", JSON.stringify(first_post), post);
-//                        errors++;
-//                    }
-//
-//                    exports.getUser(steve.userid, function (user) {
-//                        console.log("[Test] user from call back is %s", JSON.stringify(user));
-//                        if (user[0].user_posts.length == 1) {
-//                            console.log("[Test] 5 addPost & updateUser update the user properly");
-//                        } else {
-//                            console.log("[Test] 5 addPost did not update the user properly or updateUser did not work");
-//                            errors++;
-//                        }
-//
-//                        exports.updatePost({postid: first_post.postid, title: "hey! post updated!", money_requested: 1500, copayers: [
-//                            {userid: "facebook123456", amount_paid: 300}
-//                        ]}, function (post) {
-//                            console.log("[Model] This is post: %s", post);
-//                            if (post.title == "hey! post updated!" && post.money_requested == 1500 && post.copayers[0].userid == "facebook123456" && post.copayers[0].amount_paid == 300) {
-//                                console.log("[Test] 6 updatePost is working");
-//                            } else {
-//                                console.log("[Test] 6 updatePost is not working: %s", post);
-//                                errors++;
-//                            }
-//                            exports.addPost(second_post, function (post) {
-//                                exports.getPostsUserID(steve.userid, function (posts) {
-//                                    if (posts.length == 2) {
-//                                        console.log("[Test] 7 getPostsUserID is working");
-//                                    } else {
-//                                        console.log("[Test] 7 getPostsUserID is not working, posts: %s", posts);
-//                                        errors++;
-//                                    }
-//                                    console.log("[Test] Test Ends");
-//                                    if (errors == 0) {
-//                                        console.log("[Test] There is no error. Congrats!");
-//                                        return 0;
-//                                    } else {
-//                                        console.log("[Test] There are %s errors. Please go back!", errors);
-//                                        return 0;
-//                                    }
-//                                })
-//                            })
-//                        })
-//                    })
-//                })
-//            })
-//        });
-//    })
-//};
-//
-//exports.unit_testing();
+//    };
+//});

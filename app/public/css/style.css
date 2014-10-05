@@ -87,3 +87,23 @@ body {
   margin-bottom: 3rem;
   border-radius: 1rem;
 }
+
+.tabs {
+  display: table;
+  width: 100%;
+}
+
+.tabs dd {
+  display: table-cell;
+  width: 50%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tabs dd:nth-child(1) a {
+  border-top-left-radius: 1rem;
+}
+
+.tabs dd:nth-child(2) a {
+  border-top-right-radius: 1rem;
+}

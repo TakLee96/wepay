@@ -44,7 +44,7 @@ wepayApp.controller('wepayCtrl', ['$http', '$rootScope', function($http, $rootSc
         // app.post('/user', UserController.addUser);
         console.log("registering new user");
         $http.post('/user', {
-            userid: "", name: ""
+            userid: $rootScope.myInfo.id, name: ($rootScope.myInfo.first_name + " " + $rootScope.myInfo.last_name)
         }).success(function(data, status, headers, config) {
             console.log("%s %s %s %s", data, status, headers, config)
             callback();
